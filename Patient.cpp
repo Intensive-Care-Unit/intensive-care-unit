@@ -1,6 +1,9 @@
 #include "Patient.hpp"
 #include <chrono>
+#include <iostream>
 
+using std::cout;
+using std::endl;
 
 Patient::Patient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight)
         :
@@ -61,5 +64,16 @@ void Patient::addMeasurement(float pressure, float heartRate)
 Patient &Patient::operator=(const Patient &p)
 {
     return *this;
+}
+
+
+void Patient::print() const
+{
+    cout << "id: " << _id << endl;
+    cout << "name: " << _name << endl;
+    cout << "age: " << _age << endl;
+    cout << "height: " << _height << " cm" << endl;
+    cout << "weight: " << _weight << " kg" << endl;
+    cout << "gender: " << (_gender ? "male" : "female") << endl;
 }
 
