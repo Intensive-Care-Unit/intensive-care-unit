@@ -33,6 +33,7 @@ public:
     const std::vector<Measurement> &getHistory() const;
 
 
+
 /*******************************
  *  Functionality
  ******************************/
@@ -44,6 +45,9 @@ public:
      * @param heartRate in //TODO unit
      * */
     void addMeasurement(float pressure, float heartRate);
+
+
+    void print() const;
 
 private:
 
@@ -62,9 +66,9 @@ private:
     // 1 for male, 0 for female, we'll use an enum to avoid ambiguity
     const uint8_t _gender;
 
-    const uint8_t _age;
+    const uint16_t _age;
 
-    const uint8_t _height; // in cm
+    const uint16_t _height; // in cm
 
     const uint16_t _weight; // in kg;  uint16, bcs weight can be more than 255
 
