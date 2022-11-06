@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint> // for uint64_t
-
+#include <utility>
 
 class Measurement
 {
@@ -12,16 +12,20 @@ public:
      * @param pressure in //TODO unit
      * @param heartRate in //TODO unit
      * */
-    explicit Measurement(float pressure, float heartRate);
+    explicit Measurement(uint8_t systolicBP, uint8_t diastolicBP, uint8_t heartRate);
 
-    long long int getTime() const;
+    uint64_t getTime() const;
 
-    float getBloodPressure() const;
+    std::pair<uint8_t, uint8_t> getBloodPressure() const;
 
-    float getHeartRate() const;
+    uint8_t getHeartRate() const;
 
 private:
     const uint64_t _time; // U_int64 number that represents the timestamp when the measurement was taken;
-    const float _bloodPressure;  // blood pressure in //TODO find unit of blood pressure
-    const float _heartRate;      // heart rate in //TODO find unit of heart rate
+
+//    const uint8_t _bloodPressure;
+
+    const std::pair<uint8_t, uint8_t> _bloodPressure; // first is Systolic BP, second is Diastolic BP
+
+    const uint8_t _heartRate;      // heart rate in BPM
 };
