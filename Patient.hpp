@@ -68,6 +68,13 @@ public:
     // TODO remove later, just for testing if code works
     void print() const;
 
+
+    /**
+     * @brief Generates a measurement and adds it to the history, might check for the patient's last measurement to decide whether they should be moved to the critical unit,
+     * @attention takes into consideration the unit the patient belongs to (if he is already in critical unit, no need to move him to it)
+     */
+    void update();
+
 private:
 
 

@@ -86,3 +86,24 @@ const std::string &Patient::getServiceName() const
     return _serviceName;
 }
 
+void Patient::moveToCritical()
+{
+
+}
+
+void Patient::release()
+{
+
+}
+
+void Patient::addMeasurement()
+{
+
+}
+
+// TODO finish Patient's update()
+void Patient::update()
+{
+
+}
+
