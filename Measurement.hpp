@@ -9,7 +9,8 @@ public:
 
     /**
      * A constructor for the measurement's data, _time is initialized using timestamps
-     * @param pressure in //TODO unit
+     * @param systolicBP in //TODO unit
+     * @param diastolicBP in //TODO unit
      * @param heartRate in //TODO unit
      * */
     explicit Measurement(uint8_t systolicBP, uint8_t diastolicBP, uint8_t heartRate);

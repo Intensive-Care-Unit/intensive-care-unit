@@ -3,6 +3,9 @@
 #include "Patient.hpp"
 #include <string>
 #include <vector>
+#include <chrono>
+#include <random>
+#include <cassert>
 #include <unordered_map>
 
 
@@ -14,7 +17,14 @@ public:
     const std::string &getServiceName() const;
 
     /**
-     * procedurally generates a patient's info and calls addPatient(name, gender, age, height, weight) to add him to the hashmaps
+     * procedurally adds new patients, releases ones, and marks ones as dead (thus removed from the record)
+     * this function is ran by the update() method in Hospital.hpp
+     * */
+    void update();
+
+    /**
+     * @brief procedurally generates a patient's info and calls addPatient(name, gender, age, height, weight) to add him to the hashmaps, as well as the _patientIds array
+     * @attention takes into consideration lazy deleted elements' indexes in _deletedPatientIdsIndexes
      * */
     void addPatient();
 
@@ -46,20 +56,55 @@ private:
     // name of the service the care unit belongs to, must be initialized
     const std::string _serviceName;
 
-//    // list of _patients that are under the current service
-//    std::vector<Patient> _patients;
 
     // a hashmap that maps each patient's id to their name
     std::unordered_map<uint64_t, std::string> _idToName;
+
 
     // a hashmap that maps each patient's name to their Patient object
     std::unordered_map<std::string, Patient> _nameToPatient;
 
 
+    // a vector array of the patient's IDS, we'll use it to traverse the patients in order to update them or print them in O(n) time
+    // if a patient is deleted, their ID is turned into -1 (for lazy deletion)
+    // we'll keep the indexes of the deleted patients in a linked list (below) to insert new patients into the deleted positions
+    std::vector<uint64_t> _patientsIds;
+
+
+    // doubly linked list of the deleted patients indexes in _patientsIds vector array
+    std::list<size_t> _deletedPatientsIndexes;
+
+
+
+
+
+/****************** Utilities ***********************/
+
     /**
-     * Adds a new patient to the patients hashmaps
+     * @brief Adds a new patient to the patients hashmaps
+     * @attention add patient's id to _patientIds array taking into consideration _deletedPatientsIndexes
      * */
     void addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight);
 
+
+    /*
+     * Adds a patient from an existing patient object
+     */
+    void addPatient(const Patient &patient);
+
+
+    /**
+     * @returns a random number between 0 and a
+     * @param int a: upper bound
+     */
+    static int rng(int a);
+
+
+    /**
+     * @returns a random number in a certain range
+     * @param int a: lower bound
+     * @param int b: upper bound
+     */
+    static int rng(int a, int b);
 
 };
