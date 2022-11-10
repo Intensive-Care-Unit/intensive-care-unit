@@ -1,24 +1,29 @@
 #include <iostream>
+#include <thread>
 #include "Hospital.hpp"
 
-#include <chrono>
-#include <thread>
+using namespace std;
 
-using namespace std::this_thread;     // sleep_for, sleep_until
-using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
-using std::chrono::system_clock;
+/*
+ * TODO: finish update implementations (procedural generation of data)
+ * TODO: make testing data set
+ * TODO: make functions to import the data sets
+ */
 
 int main()
 {
     Hospital h;
-    h.addUnit("cardiology");
 
-    CareUnit card = h.getServiceUnit("cardiology");
+    thread f([&]()
+             { h.update(); });
 
-    Patient p = card.addPatient("ahmed", 1, 19, 170, 60);
 
-    p.print();
 
+    // rest of code here
+
+
+    // to wait for update() to finish before finishing the program's execution, prevents exiting the program while the thread is still running
+    f.join();
 
     return 0;
 }

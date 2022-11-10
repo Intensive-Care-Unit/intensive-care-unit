@@ -10,7 +10,7 @@ public:
      * Initializes the hospital object
      * Creates the critical service unit and pushes it to the array of services
      * */
-    explicit Hospital();
+    explicit Hospital() = default;
 
     /**
      * Adds a new unit to the services array if it doesn't already exist
@@ -33,7 +33,12 @@ public:
      * @param name: name of the service unit
      * @returns const reference to CareUnit object that has the given name
      * */
-    const CareUnit &getServiceUnit(const std::string &name);
+    const CareUnit &getServiceUnit(const std::string &name); // TODO make it const
+
+    /**
+     * @return first element of _services
+     */
+    CareUnit &getCriticalUnit() const;
 
 
     /**
