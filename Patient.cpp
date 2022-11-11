@@ -2,7 +2,6 @@
 #include <chrono>
 #include <iostream>
 #include "Utils.hpp"
-#include "State.hpp"
 
 using std::cout;
 using std::endl;
@@ -110,12 +109,12 @@ void Patient::release()
     currentUnit.removePatient(_id);
 }
 
-void Patient::generateMeasurement()
+void Patient::addMeasurement()
 {
-    // heart rate: 0-220
+    // heart rate: 0-200
     // blood pressure:
     // systolic € [50 - 220]
-    // diastolic € [30 - 190]
+    // diastolic € [30 - 180]
     // systolic is always higher than diastolic
 
     uint8_t heartRate, systolicBP, diastolicBP;
@@ -135,7 +134,7 @@ void Patient::generateMeasurement()
 void Patient::update()
 {
     // add measurement
-    generateMeasurement();
+    addMeasurement();
 
     // based on the new measurement, decide whether to move patient to critical
 
