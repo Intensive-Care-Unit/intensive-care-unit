@@ -8,7 +8,7 @@ class Measurement
 public:
 
     /**
-     * A constructor for the measurement's data, _time is initialized using timestamps
+     * constructor for the measurement's data, _time is initialized using timestamps
      * @param systolicBP in //TODO unit
      * @param diastolicBP in //TODO unit
      * @param heartRate in //TODO unit
