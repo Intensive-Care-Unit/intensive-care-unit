@@ -38,7 +38,7 @@ public:
     /**
      * @return first element of _services
      */
-    CareUnit &getCriticalUnit() const;
+    CareUnit &getCriticalUnit();
 
 
     /**

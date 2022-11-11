@@ -67,7 +67,7 @@ bool Hospital::removeUnit(const std::string &unit)
     return false;
 }
 
-CareUnit &Hospital::getCriticalUnit() const
+CareUnit &Hospital::getCriticalUnit()
 {
     return _services[0];
 }
