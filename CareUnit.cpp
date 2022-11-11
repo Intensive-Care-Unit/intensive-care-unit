@@ -47,6 +47,7 @@ const Patient &CareUnit::getpatient(uint64_t id) const
 {
 }
 
+
 void CareUnit::update()
 {
     // probability of 1/2 to add 3 patients
