@@ -9,10 +9,6 @@
 #include <fstream>
 
 
-//TODO move PatientData and DataSets classes to a separate file
-
-
-
 class State
 {
 public:
@@ -23,7 +19,7 @@ public:
 
 
     /**
- * @returns static hospital instance pointer
+ * @returns static Dataset instance pointer
  */
     static DataSets *getData();
 
