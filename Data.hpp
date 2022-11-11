@@ -8,10 +8,8 @@
 #include <fstream>
 #include "Hospital.hpp"
 
-class PatientData
+struct PatientData
 {
-
-public:
     PatientData(std::string n, uint8_t g)
             :
             name(std::move(n))
