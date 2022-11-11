@@ -94,7 +94,7 @@ private:
 
     const std::string _name;
 
-    // 1 for male, 0 for female, we'll use an enum to avoid ambiguity
+    // 'm' for male, 'f' for female, we'll use an enum to avoid ambiguity
     const uint8_t _gender;
 
     const uint8_t _age;

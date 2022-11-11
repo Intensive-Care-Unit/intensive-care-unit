@@ -1,6 +1,7 @@
 #include "Patient.hpp"
 #include <chrono>
 #include <iostream>
+#include "Utils.hpp"
 
 using std::cout;
 using std::endl;
@@ -98,12 +99,50 @@ void Patient::release()
 
 void Patient::addMeasurement()
 {
+    // heart rate: 0-200
+    // blood pressure:
+    // systolic € [50 - 220]
+    // diastolic € [30 - 180]
+    // systolic is always higher than diastolic
 
 }
 
-// TODO finish Patient's update()
+
 void Patient::update()
 {
+    // add measurement
+    addMeasurement();
 
+    // based on the new measurement, decide whether to move patient to critical
+
+    // critical Heart rate < 30 or > 130
+    // critical BP:
+    // sys < 90 or dias < 60
+    // sys > 180 and/or dias > 120
+
+
+    auto &lastMeasurement = history.front();
+
+    int systolicBP = lastMeasurement.getBloodPressure().first;
+    int diastolicBP = lastMeasurement.getBloodPressure().second;
+    int heartRate = lastMeasurement.getHeartRate();
+
+    // Heart Rate
+    bool isHeartRateCritical = heartRate < 30 || heartRate > 130;
+    bool isBpCritical = (systolicBP < 90 || diastolicBP < 60) || (systolicBP > 180 || diastolicBP > 120);
+
+
+    int releaseRandoNum = Utils::rng(10);
+    if (releaseRandoNum < 2)
+    {
+        release();
+        return;
+    }
+
+    if (isHeartRateCritical || isBpCritical)
+    {
+        moveToCritical();
+    }
 }
+
 
