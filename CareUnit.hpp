@@ -93,18 +93,4 @@ private:
     void addPatient(const Patient &patient);
 
 
-    /**
-     * @returns a random number between 0 and a
-     * @param int a: upper bound
-     */
-    static int rng(int a);
-
-
-    /**
-     * @returns a random number in a certain range
-     * @param int a: lower bound
-     * @param int b: upper bound
-     */
-    static int rng(int a, int b);
-
 };
