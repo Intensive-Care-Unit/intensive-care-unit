@@ -1,6 +1,8 @@
 #include <algorithm>
 #include "CareUnit.hpp"
 #include "State.hpp"
+#include "Utils.hpp"
+
 
 CareUnit::CareUnit(const std::string &name)
         : _serviceName(name)
@@ -48,7 +50,7 @@ const Patient &CareUnit::getpatient(uint64_t id) const
 void CareUnit::update()
 {
     // probability of 1/2 to add 3 patients
-    int randomNum = rng(10);
+    int randomNum = Utils::rng(10);
     if (randomNum >= 5) // add 3 patients
     {
         addPatient();
@@ -58,11 +60,11 @@ void CareUnit::update()
 
 
     // probability of 3/10 to remove 1 random patient (dead or released)
-    randomNum = rng(10);
+    randomNum = Utils::rng(10);
     if (randomNum < 3)
     {
         // removing the patient after getting their idIndex randomly
-        uint64_t idIndex = rng(_patientsIds.size());
+        uint64_t idIndex = Utils::rng(_patientsIds.size());
 
         if (_patientsIds[idIndex] != -1)  // to make sure the patient isn't already deleted
         {
@@ -76,14 +78,14 @@ void CareUnit::update()
     // when number of patient exceeds 10, there is a probability of 4/10 that 10% of the patients get moved to critical unit
     if (_idToName.size() >= 10 && _serviceName != State::getHospital()->getCriticalUnit()._serviceName)
     {
-        randomNum = rng(10);
+        randomNum = Utils::rng(10);
 
         if (randomNum < 4)
         {
             int tenthOfPatientsCount = _idToName.size() / 10;
             for (int i = 0; i < tenthOfPatientsCount; ++i)
             {
-                int index = rng(_patientsIds.size());
+                int index = Utils::rng(_patientsIds.size());
 
                 // checking if patient at index is already deleted
                 if (_patientsIds[index] == -1)
@@ -92,6 +94,8 @@ void CareUnit::update()
                     continue;
                 } else
                 {
+
+                    //TODO move this code to "moveToCritical()" function in Patient class
                     // we move the patient to critical unit
                     auto hospital = State::getHospital();
 
@@ -125,30 +129,3 @@ void CareUnit::update()
         }
     }
 }
-
-int CareUnit::rng(int a)
-{
-    // assert aborts the program if the condition is not true
-    assert(a > 0);
-
-    auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-
-    std::mt19937 num(seed);
-    std::uniform_int_distribution<int> distr(0, a);
-
-    return static_cast<int>(distr(num));
-}
-
-int CareUnit::rng(int a, int b)
-{
-    // assert aborts the program if the condition is not true
-    assert(a < b);
-
-    auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-
-    std::mt19937 num(seed);
-    std::uniform_int_distribution<int> distr(a, b);
-
-    return static_cast<int>(distr(num));
-}
-
