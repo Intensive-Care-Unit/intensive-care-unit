@@ -89,12 +89,12 @@ const std::string &Patient::getServiceName() const
 
 void Patient::moveToCritical()
 {
-
+  //TODO: To be created... Need to use state
 }
 
 void Patient::release()
 {
-
+  //TODO: To be created... Need to use state
 }
 
 void Patient::addMeasurement()
