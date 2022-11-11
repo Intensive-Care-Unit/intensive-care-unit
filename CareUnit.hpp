@@ -65,16 +65,6 @@ private:
     std::unordered_map<std::string, Patient> _nameToPatient;
 
 
-    // a vector array of the patient's IDS, we'll use it to traverse the patients in order to update them or print them in O(n) time
-    // if a patient is deleted, their ID is turned into -1 (for lazy deletion)
-    // we'll keep the indexes of the deleted patients in a linked list (below) to insert new patients into the deleted positions
-    std::vector<uint64_t> _patientsIds;
-
-
-    // doubly linked list of the deleted patients indexes in _patientsIds vector array
-    std::list<size_t> _deletedPatientsIndexes;
-
-
 
 
 

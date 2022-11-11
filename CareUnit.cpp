@@ -18,14 +18,7 @@ void CareUnit::addPatient(const std::string &name, uint8_t gender, uint8_t age, 
 
 void CareUnit::addPatient(const Patient &patient)
 {
-  if(_deletedPatientsIndexes.empty())
-    _patientsIds.push_back(patient.getId());
-  else{
-    _patientsIds[_deletedPatientsIndexes.back()] = patient.getId();
-    _deletedPatientsIndexes.pop_back();
-  }
-  
-  _nameToPatient[patient.getName()] = patient;
+  _nameToPatient.insert(std::make_pair(patient.getName(), patient));
   _idToName[patient.getId()] = patient.getName();
 }
 
@@ -35,12 +28,6 @@ void CareUnit::removePatient(uint64_t id)
   std::string name = _idToName[id];
   _nameToPatient.erase(name);
   _idToName.erase(id);
-  for(auto it = _patientsIds.begin(); it != _patientsIds.end(); it++)
-    if(*it == id){
-      _deletedPatientsIndexes.push_back(_patientsIds.end() - it);
-      *it = -1;
-      break;
-    }
 }
 
 const std::string &CareUnit::getServiceName() const
@@ -51,9 +38,8 @@ const std::string &CareUnit::getServiceName() const
 const std::vector<Patient> &CareUnit::getPatients() const
 {
   std::vector<Patient> unitPatients;
-  for(auto it = _patientsIds.begin(); it != _patientsIds.end(); it++){
-    if(*it != -1)
-      unitPatients.push_back(getPatient(*it));
+  for (auto patient : _nameToPatient){
+    unitPatients.push_back(patient.second);
   }
   
   return unitPatients;
