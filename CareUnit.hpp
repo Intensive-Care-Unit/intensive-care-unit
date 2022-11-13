@@ -40,6 +40,9 @@ public:
     void removePatient(uint64_t id);
 
 
+    bool hasPatients() const;
+
+
     /**
      * @returns a const reference to a patient using their name
      * */
