@@ -38,7 +38,7 @@ public:
     /**
      * Procedurally generates measurements and adds them to the patient's history
      * */
-    void addMeasurement();
+    void generateMeasurement();
 
 
     /**

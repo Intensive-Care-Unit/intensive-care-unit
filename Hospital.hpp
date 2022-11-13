@@ -33,7 +33,7 @@ public:
      * @param name: name of the service unit
      * @returns const reference to CareUnit object that has the given name
      * */
-    const CareUnit &getServiceUnit(const std::string &name); // TODO make it const
+    CareUnit &getServiceUnit(const std::string &name);
 
     /**
      * @return first element of _services

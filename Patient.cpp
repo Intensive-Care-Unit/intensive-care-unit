@@ -2,6 +2,7 @@
 #include <chrono>
 #include <iostream>
 #include "Utils.hpp"
+#include "State.hpp"
 
 using std::cout;
 using std::endl;
@@ -89,21 +90,44 @@ const std::string &Patient::getServiceName() const
 
 void Patient::moveToCritical()
 {
+    auto &currentUnit = State::getHospital()->getServiceUnit(_serviceName);
+    auto &criticalUnit = State::getHospital()->getCriticalUnit();
+
+    if (_serviceName == criticalUnit.getServiceName())
+    {
+        return; // patient already in critical
+    }
+
+    // removing the patient from the current unit and adding them to the critical unit
+    criticalUnit.addPatient(*this);
+    currentUnit.removePatient(_id);
 
 }
 
 void Patient::release()
 {
-
+    auto &currentUnit = State::getHospital()->getServiceUnit(_serviceName);
+    currentUnit.removePatient(_id);
 }
 
-void Patient::addMeasurement()
+void Patient::generateMeasurement()
 {
-    // heart rate: 0-200
+    // heart rate: 0-220
     // blood pressure:
     // systolic € [50 - 220]
-    // diastolic € [30 - 180]
+    // diastolic € [30 - 190]
     // systolic is always higher than diastolic
+
+    uint8_t heartRate, systolicBP, diastolicBP;
+
+    //heart rate:
+    heartRate = Utils::rng(220);
+
+    // blood pressure
+    diastolicBP = Utils::rng(30, 190);
+    systolicBP = Utils::rng(diastolicBP, 220);
+
+    this->addMeasurement(systolicBP, diastolicBP, heartRate);
 
 }
 
@@ -111,7 +135,7 @@ void Patient::addMeasurement()
 void Patient::update()
 {
     // add measurement
-    addMeasurement();
+    generateMeasurement();
 
     // based on the new measurement, decide whether to move patient to critical
 
