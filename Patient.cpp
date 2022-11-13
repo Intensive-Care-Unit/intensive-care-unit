@@ -2,6 +2,7 @@
 #include <chrono>
 #include <iostream>
 #include "Utils.hpp"
+#include "State.hpp"
 
 using std::cout;
 using std::endl;
@@ -109,7 +110,7 @@ void Patient::release()
     currentUnit.removePatient(_id);
 }
 
-void Patient::addMeasurement()
+void Patient::generateMeasurement()
 {
     // heart rate: 0-200
     // blood pressure:
@@ -134,7 +135,7 @@ void Patient::addMeasurement()
 void Patient::update()
 {
     // add measurement
-    addMeasurement();
+    generateMeasurement();
 
     // based on the new measurement, decide whether to move patient to critical
 

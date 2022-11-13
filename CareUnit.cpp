@@ -12,22 +12,22 @@ CareUnit::CareUnit(const std::string &name)
 
 void CareUnit::addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight)
 {
-  Patient p = Patient(_serviceName, name, gender, age, height, weight);
-  addPatient(p);
+    Patient p = Patient(_serviceName, name, gender, age, height, weight);
+    addPatient(p);
 }
 
 void CareUnit::addPatient(const Patient &patient)
 {
-  _nameToPatient.insert(std::make_pair(patient.getName(), patient));
-  _idToName[patient.getId()] = patient.getName();
+    _nameToPatient.insert(std::make_pair(patient.getName(), patient));
+    _idToName[patient.getId()] = patient.getName();
 }
 
 
 void CareUnit::removePatient(uint64_t id)
 {
-  std::string name = _idToName[id];
-  _nameToPatient.erase(name);
-  _idToName.erase(id);
+    std::string name = _idToName[id];
+    _nameToPatient.erase(name);
+    _idToName.erase(id);
 }
 
 const std::string &CareUnit::getServiceName() const
@@ -37,15 +37,15 @@ const std::string &CareUnit::getServiceName() const
 
 const std::vector<Patient> &CareUnit::getPatients() const
 {
-  std::vector<Patient> unitPatients;
-  for (auto patient : _nameToPatient){
-    unitPatients.push_back(patient.second);
-  }
-  
-  return unitPatients;
+    std::vector<Patient> unitPatients;
+    for (auto patient: _nameToPatient)
+    {
+        unitPatients.push_back(patient.second);
+    }
+
+    return unitPatients;
 }
 
-}
 
 void CareUnit::addRandomPatient()
 {
@@ -95,12 +95,12 @@ void CareUnit::addRandomPatient()
 
 const Patient &CareUnit::getPatient(const std::string &name) const
 {
-  return _nameToPatient.at(name);
+    return _nameToPatient.at(name);
 }
 
 const Patient &CareUnit::getPatient(uint64_t id) const
 {
-  return getPatient(_idToName.at(id));
+    return getPatient(_idToName.at(id));
 }
 
 
