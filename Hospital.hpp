@@ -10,7 +10,7 @@ public:
      * Initializes the hospital object
      * Creates the critical service unit and pushes it to the array of services
      * */
-    explicit Hospital() = default;
+    explicit Hospital();
 
     /**
      * Adds a new unit to the services array if it doesn't already exist
@@ -49,7 +49,13 @@ public:
 
 private:
     // array of the care units, index 0 is the critical unit object
-    std::vector<CareUnit> _services;
+//    std::vector<CareUnit> _services;
 
+
+    // hashmap of CareUnits (hashed with their names)
+    std::unordered_map<std::string, CareUnit> _serviceUnits;
+
+
+    // TODO: comment functions after the ADT change
 
 };

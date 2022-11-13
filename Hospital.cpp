@@ -6,40 +6,46 @@
 #include <chrono>
 #include <iostream>
 
+
+Hospital::Hospital()
+{
+    // adding default units
+    addUnit("critical");
+    addUnit("cardiology");
+    addUnit("pulmonology");
+    addUnit("gynaecology");
+}
+
+
 bool Hospital::addUnit(const std::string &name)
 {
-    // black magic :)
-    // checking if unit of name "name" exists in the list of services
-    // here, used lambda function to check with the object's attribute instead of the entire object
-    if (std::find_if(_services.begin(), _services.end(), [name](const CareUnit &unit)
-    { return unit.getServiceName() != name; }) == _services.end())
-    {
-        // if it doesn't, we add a new service and return true
+    auto it = _serviceUnits.find(name);
 
-        // https://yasenh.github.io/post/cpp-diary-1-emplace_back/
-        _services.emplace_back(name);
-        return true;
-    } else
+    // if it already exists, we return
+    if (it != _serviceUnits.end())
     {
-        // otherwise, if it exists, we return false
         return false;
     }
+
+    _serviceUnits.insert(std::make_pair(name, CareUnit(name)));
+
+    return true;
 }
+
 
 CareUnit &Hospital::getServiceUnit(const std::string &name)
 {
-    auto it = (std::find_if(_services.begin(), _services.end(), [name](const CareUnit &unit)
-    { return unit.getServiceName() == name; }));
+    auto it = _serviceUnits.find(name);
 
-
-    if (it != _services.end())
+    if (it != _serviceUnits.end())
     {
-        return *it;
+        return (*it).second;
     } else
     {
         throw std::runtime_error("service not found");
     }
 }
+
 
 void Hospital::update()
 {
@@ -52,9 +58,9 @@ void Hospital::update()
          *  - for each patient, add a new generated measurement to their history
          * */
 
-        for (auto &service: _services)
+        for (auto &service: _serviceUnits)
         {
-            service.update();
+            service.second.update();
         }
 
         std::this_thread::sleep_for(std::chrono::seconds(5));
@@ -62,13 +68,35 @@ void Hospital::update()
 }
 
 
-bool Hospital::removeUnit(const std::string &unit)
+bool Hospital::removeUnit(const std::string &name)
 {
-    return false;
+
+    if (_serviceUnits.size() == 2)
+    {
+        return false; // TODO: throw EnoughUnitsException instead
+    }
+
+    auto it = _serviceUnits.find(name);
+
+    // if unit exists
+    if (it != _serviceUnits.end())
+    {
+        if ((*it).second.hasPatients())
+        {
+            return false; // TODO throw HasPatientsException instead
+        } else
+        {
+            _serviceUnits.erase(name);
+        }
+    } else
+    {
+        return false; // TODO: throw PatientDoesntExistException instead
+    }
 }
+
 
 CareUnit &Hospital::getCriticalUnit()
 {
-    return _services[0];
+    return _serviceUnits.at("critical");
 }
 

@@ -105,3 +105,8 @@ void CareUnit::update()
         patientPair.second.update();
     }
 }
+
+bool CareUnit::hasPatients() const
+{
+    return !(_nameToPatient.empty());
+}
