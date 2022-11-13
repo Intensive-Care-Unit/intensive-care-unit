@@ -23,10 +23,16 @@ public:
     void update();
 
     /**
-     * @brief procedurally generates a patient's info and calls addPatient(name, gender, age, height, weight) to add him to the hashmaps, as well as the _patientIds array
-     * @attention takes into consideration lazy deleted elements' indexes in _deletedPatientIdsIndexes
+     * @brief procedurally generates a patient's info and calls addRandomPatient(name, gender, age, height, weight) to add him to the hashmaps
      * */
-    void addPatient();
+    void addRandomPatient();
+
+
+    /*
+ * Adds a patient from an existing patient object
+ */
+    void addPatient(const Patient &patient);
+
 
     /**
      * Removes a patient from the patients hashmaps by their id
@@ -65,14 +71,18 @@ private:
     std::unordered_map<std::string, Patient> _nameToPatient;
 
 
-    // a vector array of the patient's IDS, we'll use it to traverse the patients in order to update them or print them in O(n) time
-    // if a patient is deleted, their ID is turned into -1 (for lazy deletion)
-    // we'll keep the indexes of the deleted patients in a linked list (below) to insert new patients into the deleted positions
-    std::vector<uint64_t> _patientsIds;
+    // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1456.html
 
 
-    // doubly linked list of the deleted patients indexes in _patientsIds vector array
-    std::list<size_t> _deletedPatientsIndexes;
+// TODO remove lazy deletion stuff from update() methods
+//    // a vector array of the patient's IDS, we'll use it to traverse the patients in order to update them or print them in O(n) time
+//    // if a patient is deleted, their ID is turned into -1 (for lazy deletion)
+//    // we'll keep the indexes of the deleted patients in a linked list (below) to insert new patients into the deleted positions
+//    std::vector<uint64_t> _patientsIds;
+//
+//
+//    // doubly linked list of the deleted patients indexes in _patientsIds vector array
+//    std::list<size_t> _deletedPatientsIndexes;
 
 
 
@@ -85,12 +95,6 @@ private:
      * @attention add patient's id to _patientIds array taking into consideration _deletedPatientsIndexes
      * */
     void addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight);
-
-
-    /*
-     * Adds a patient from an existing patient object
-     */
-    void addPatient(const Patient &patient);
 
 
 };
