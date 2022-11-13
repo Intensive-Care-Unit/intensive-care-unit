@@ -1,8 +1,7 @@
 #include <algorithm>
 #include "CareUnit.hpp"
-#include "State.hpp"
 #include "Utils.hpp"
-
+#include "State.hpp"
 
 CareUnit::CareUnit(const std::string &name)
         : _serviceName(name)
@@ -34,8 +33,49 @@ const std::vector<Patient> &CareUnit::getPatients() const
 
 }
 
-void CareUnit::addPatient()
+void CareUnit::addRandomPatient()
 {
+    // generate patient info from dataset
+    // generate random metadata (age, height, weight)
+    // construct the patient and add them to the patients HMs
+
+    PatientData patientInfo = State::getData()->generatePatientData();
+
+    // generating age:
+    uint8_t age = Utils::rng(200);
+
+    uint8_t height, weight;
+
+    bool isBaby = age <= 1; // weight from 2kg to 12kg, height 50-70
+    bool isLittleKid = age > 1 && age <= 5; // weight from 10 to 22, height 70-110
+    bool isKid = age > 5 && age <= 12; // weight from 17 to 45kg, height 110-150
+    bool isTeen = age > 12 && age < 18; // weight from 40 to 65, height 150-170
+    bool isAdult = age >= 18; // weight from 50 to 100, height 150 - 200
+
+    if (isBaby)
+    {
+        weight = Utils::rng(2, 12);
+        height = Utils::rng(50, 70);
+    } else if (isLittleKid)
+    {
+        weight = Utils::rng(10, 22);
+        height = Utils::rng(70, 110);
+    } else if (isKid)
+    {
+        weight = Utils::rng(17, 45);
+        height = Utils::rng(110, 150);
+    } else if (isTeen)
+    {
+        weight = Utils::rng(40, 65);
+        height = Utils::rng(150, 170);
+    } else if (isAdult)
+    {
+        weight = Utils::rng(50, 100);
+        height = Utils::rng(150, 200);
+    }
+
+    addPatient(patientInfo.name, patientInfo.gender, age, height, weight);
+
 
 }
 
@@ -54,79 +94,14 @@ void CareUnit::update()
     int randomNum = Utils::rng(10);
     if (randomNum >= 5) // add 3 patients
     {
-        addPatient();
-        addPatient();
-        addPatient();
-    }
-
-
-    // probability of 3/10 to remove 1 random patient (dead or released)
-    randomNum = Utils::rng(10);
-    if (randomNum < 3)
-    {
-        // removing the patient after getting their idIndex randomly
-        uint64_t idIndex = Utils::rng(_patientsIds.size());
-
-        if (_patientsIds[idIndex] != -1)  // to make sure the patient isn't already deleted
-        {
-            removePatient(_patientsIds[idIndex]);
-
-            // adding the removed index to the _deletedPatientsIndexes DLL
-            _deletedPatientsIndexes.emplace_front(idIndex);
-        }
-    }
-
-    // when number of patient exceeds 10, there is a probability of 4/10 that 10% of the patients get moved to critical unit
-    if (_idToName.size() >= 10 && _serviceName != State::getHospital()->getCriticalUnit()._serviceName)
-    {
-        randomNum = Utils::rng(10);
-
-        if (randomNum < 4)
-        {
-            int tenthOfPatientsCount = _idToName.size() / 10;
-            for (int i = 0; i < tenthOfPatientsCount; ++i)
-            {
-                int index = Utils::rng(_patientsIds.size());
-
-                // checking if patient at index is already deleted
-                if (_patientsIds[index] == -1)
-                {
-                    --i;
-                    continue;
-                } else
-                {
-
-                    //TODO move this code to "moveToCritical()" function in Patient class
-                    // we move the patient to critical unit
-                    auto hospital = State::getHospital();
-
-                    std::string patientName = _idToName[_patientsIds[index]];
-
-                    Patient patient = _nameToPatient.find(patientName)->second;
-
-                    // adding the patient to the critical unit
-                    hospital->getCriticalUnit().addPatient(patient);
-
-                    // removing the patient from the current unit
-                    this->removePatient(_patientsIds[index]);
-                }
-            }
-        }
+        addRandomPatient();
+        addRandomPatient();
+        addRandomPatient();
     }
 
     // updating all the patient's objects
-    for (auto &patientId: _patientsIds)
+    for (auto &patientPair: _nameToPatient)
     {
-        if (patientId != -1) // if patient isn't marked as deleted
-        {
-            // getting the name of the current patient from the (id -> name)  Hashmap
-            std::string name = _idToName[patientId];
-
-            // getting the Patient object from (name -> Patient) Hashmap
-            auto patient = _nameToPatient.find(name)->second;
-
-            // running the update method of the patient
-            patient.update();
-        }
+        patientPair.second.update();
     }
 }
