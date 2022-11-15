@@ -7,7 +7,10 @@
 #include <random>
 #include <cassert>
 #include <unordered_map>
+#include <map>
 
+
+//typedef std::unordered_map<std::string, Patient *>::iterator patientsIterator;
 
 class CareUnit
 {
@@ -46,20 +49,30 @@ public:
     /**
      * @returns a const reference to a patient using their name
      * */
-    const Patient &getPatient(const std::string &name) const;
+    Patient getPatient(const std::string &name) const;
 
 
     /**
      * @returns a const reference to a patient using their ID
      * */
-    const Patient &getPatient(uint64_t id) const;
+    Patient getPatient(uint64_t id) const;
 
 
     /**
-     * @returns a const reference to the patients in an array
+     * @returns a reference to the patients in a hashmap
      * @attention NOT SURE ABOUT THIS, might be used when printing the list of patients
      * */
-    const std::vector<Patient> &getPatients() const;
+    std::unordered_map<std::string, Patient> &getPatients();
+
+
+    size_t getPatientsCount() const;
+
+
+    /**
+ * @brief Adds a new patient to the patients hashmaps
+ * @attention add patient's id to _patientIds array taking into consideration _deletedPatientsIndexes
+ * */
+    void addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight);
 
 private:
     // name of the service the care unit belongs to, must be initialized
@@ -72,6 +85,10 @@ private:
 
     // a hashmap that maps each patient's name to their Patient object
     std::unordered_map<std::string, Patient> _nameToPatient;
+
+
+    int deletedPatientsCount = 0;
+
 
 
     // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1456.html
@@ -92,12 +109,6 @@ private:
 
 
 /****************** Utilities ***********************/
-
-    /**
-     * @brief Adds a new patient to the patients hashmaps
-     * @attention add patient's id to _patientIds array taking into consideration _deletedPatientsIndexes
-     * */
-    void addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight);
 
 
 
