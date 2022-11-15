@@ -22,10 +22,10 @@ Patient::Patient(const std::string &serviceName, const std::string &name, uint8_
 
 }
 
-Patient &Patient::operator=(const Patient &p)
-{
-    return *this;
-}
+//Patient &Patient::operator=(const Patient &p)
+//{
+//    return *this;
+//}
 
 
 uint64_t Patient::getId() const
@@ -33,7 +33,7 @@ uint64_t Patient::getId() const
     return _id;
 }
 
-const std::string &Patient::getName() const
+std::string Patient::getName() const
 {
     return _name;
 }
@@ -58,7 +58,7 @@ uint16_t Patient::getWeight() const
     return _weight;
 }
 
-const std::list<Measurement> &Patient::getHistory() const
+std::vector<Measurement *> Patient::getHistory()
 {
     return history;
 }
@@ -69,7 +69,7 @@ void Patient::addMeasurement(uint8_t systolicBP, uint8_t diastolicBP, uint8_t he
     // we used emplace_front() bcs it's faster than push_front()
     // https://yasenh.github.io/post/cpp-diary-1-emplace_back/
 
-    this->history.emplace_front(systolicBP, diastolicBP, heartRate);
+    this->history.push_back(new Measurement(systolicBP, diastolicBP, heartRate));
 }
 
 
@@ -99,8 +99,9 @@ void Patient::moveToCritical()
     }
 
     // removing the patient from the current unit and adding them to the critical unit
-    criticalUnit.addPatient(*this);
     currentUnit.removePatient(_id);
+//    remove();
+    criticalUnit.addPatient(_name, _gender, _age, _height, _weight);
 
 }
 
@@ -108,6 +109,7 @@ void Patient::release()
 {
     auto &currentUnit = State::getHospital()->getServiceUnit(_serviceName);
     currentUnit.removePatient(_id);
+//    remove();
 }
 
 void Patient::generateMeasurement()
@@ -144,29 +146,45 @@ void Patient::update()
     // sys < 90 or dias < 60
     // sys > 180 and/or dias > 120
 
+    if (history.empty())
+    {
+        return;
+    }
 
-    auto &lastMeasurement = history.front();
+    Measurement *lastMeasurement = history.back();
 
-    int systolicBP = lastMeasurement.getBloodPressure().first;
-    int diastolicBP = lastMeasurement.getBloodPressure().second;
-    int heartRate = lastMeasurement.getHeartRate();
+    int systolicBP = lastMeasurement->getBloodPressure().first;
+    int diastolicBP = lastMeasurement->getBloodPressure().second;
+    int heartRate = lastMeasurement->getHeartRate();
 
     // Heart Rate
     bool isHeartRateCritical = heartRate < 30 || heartRate > 130;
     bool isBpCritical = (systolicBP < 90 || diastolicBP < 60) || (systolicBP > 180 || diastolicBP > 120);
 
 
-    int releaseRandoNum = Utils::rng(10);
-    if (releaseRandoNum < 2)
-    {
-        release();
-        return;
-    }
+//    int releaseRandoNum = Utils::rng(10);
+//    if (releaseRandoNum < 1)
+//    {
+//        release();
+//        return;
+//    }
 
     if (isHeartRateCritical || isBpCritical)
     {
         moveToCritical();
+        return;
     }
+
+}
+
+void Patient::remove()
+{
+    this->_isDeleted = true;
+}
+
+bool Patient::isDeleted() const
+{
+    return _isDeleted;
 }
 
 
