@@ -49,21 +49,27 @@ CareUnit &Hospital::getServiceUnit(const std::string &name)
 
 void Hospital::update()
 {
-    while (true)
+    try
     {
-
-        /**
-         * For each service:
-         *  - there is a 1/2 chance that a new patient will be added
-         *  - for each patient, add a new generated measurement to their history
-         * */
-
-        for (auto &service: _serviceUnits)
+        while (true)
         {
-            service.second.update();
-        }
+            size_t count = 0;
+            for (auto &service: _serviceUnits)
+            {
+                count += service.second.getPatientsCount();
+                service.second.update();
+            }
 
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+            system("clear");
+            std::cout << "count: " << count << std::endl;
+
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+    }
+    catch (std::runtime_error &e)
+    {
+        std::cout << e.what() << std::endl;
     }
 }
 
@@ -98,5 +104,17 @@ bool Hospital::removeUnit(const std::string &name)
 CareUnit &Hospital::getCriticalUnit()
 {
     return _serviceUnits.at("critical");
+}
+
+std::vector<CareUnit> Hospital::getUnits()
+{
+    std::vector<CareUnit> out;
+
+    for (auto &pair: _serviceUnits)
+    {
+        out.push_back(pair.second);
+    }
+
+    return out;
 }
 

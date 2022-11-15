@@ -3,17 +3,30 @@
 #include "Measurement.hpp"
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <list>
+
 
 class Patient
 {
 public:
-    Patient(const std::string &serviceName, const std::string &name, uint8_t gender, uint8_t age,
-                     uint8_t height, uint16_t weight);
 
+    typedef std::unordered_map<std::string, Patient *>::iterator patientsIterator;
+
+    Patient(const std::string &serviceName, const std::string &name, uint8_t gender, uint8_t age,
+            uint8_t height, uint16_t weight);
+
+
+//    Patient() = default;
 
     // custom copy assignment since it will be implicitly deleted bcs of having const members
-    Patient &operator=(const Patient &p);
+//    Patient &operator=(const Patient &p) = default;
+//
+//    Patient &operator=(Patient &&p) = default;
+//
+//    Patient(const Patient &p) = default;
+//
+//    Patient(Patient &&p) = default;
 
 
 /*********************************
@@ -22,7 +35,7 @@ public:
 
     uint64_t getId() const;
 
-    const std::string &getName() const;
+    std::string getName() const;
 
     uint8_t getGender() const;
 
@@ -32,7 +45,11 @@ public:
 
     uint16_t getWeight() const;
 
-    const std::list<Measurement> &getHistory() const;
+    std::vector<Measurement *> getHistory();
+
+    bool isDeleted() const;
+
+    void remove();
 
 
     /**
@@ -79,7 +96,7 @@ private:
 
 
     // the service unit the patient belongs to (might be helpful later)
-    const std::string _serviceName;
+    std::string _serviceName;
 
 
     /*
@@ -90,21 +107,25 @@ private:
      * */
 
     // a unique id assigned from the timestamp when the patient is created
-    const uint64_t _id;
+    uint64_t _id;
 
-    const std::string _name;
+    std::string _name;
 
     // 'm' for male, 'f' for female, we'll use an enum to avoid ambiguity
-    const uint8_t _gender;
+    uint8_t _gender;
 
-    const uint8_t _age;
+    uint8_t _age;
 
-    const uint8_t _height; // in cm
+    uint8_t _height; // in cm
 
-    const uint16_t _weight; // in kg;  uint16, bcs weight can be more than 255
+    uint16_t _weight; // in kg;  uint16, bcs weight can be more than 255
 
 
     // history of measurements
-    std::list<Measurement> history;
+    std::vector<Measurement *> history;
+
+
+    bool _isDeleted = false;
+
 
 };
