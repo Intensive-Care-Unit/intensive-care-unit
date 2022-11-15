@@ -2,6 +2,7 @@
 
 #include "CareUnit.hpp"
 #include <vector>
+#include <unordered_map>
 
 class Hospital
 {

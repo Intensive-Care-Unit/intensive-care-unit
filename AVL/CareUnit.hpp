@@ -6,7 +6,7 @@
 #include <chrono>
 #include <random>
 #include <cassert>
-#include <unordered_map>
+#include "AvlTree.h"
 
 
 class CareUnit
@@ -66,15 +66,12 @@ private:
     const std::string _serviceName;
 
 
-    // a hashmap that maps each patient's id to their name
-    std::unordered_map<uint64_t, std::string> _idToName;
+    // a binary search tree that maps each patient's id to their name
+    AvlTree<uint64_t, std::string> _idToName;
 
 
-    // a hashmap that maps each patient's name to their Patient object
-    std::unordered_map<std::string, Patient> _nameToPatient;
-    
-    // Vector for patients IDs.
-    std::vector<size_t> patientIds;
+    // a binary search tree that maps each patient's name to their Patient object
+    AvlTree<std::string, Patient> _nameToPatient;
 
 
     // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1456.html

@@ -18,17 +18,16 @@ void CareUnit::addPatient(const std::string &name, uint8_t gender, uint8_t age, 
 
 void CareUnit::addPatient(const Patient &patient)
 {
-    _nameToPatient.insert(std::make_pair(patient.getName(), patient));
-    _idToName[patient.getId()] = patient.getName();
-    patientIds.push_back(patient.getId());
+    _nameToPatient.insert(patient.getName(), patient);
+    _idToName.insert(patient.getId(), patient.getName());
 }
 
 
 void CareUnit::removePatient(uint64_t id)
 {
-    std::string name = _idToName[id];
-    _nameToPatient.erase(name);
-    _idToName.erase(id);
+    std::string name = _idToName.at(id);
+    _nameToPatient.remove(name);
+    _idToName.remove(id);
 }
 
 const std::string &CareUnit::getServiceName() const
@@ -38,13 +37,7 @@ const std::string &CareUnit::getServiceName() const
 
 const std::vector<Patient> &CareUnit::getPatients() const
 {
-    std::vector<Patient> unitPatients;
-    for (auto patient: _nameToPatient)
-    {
-        unitPatients.push_back(patient.second);
-    }
-
-    return unitPatients;
+    return _nameToPatient.toVector();
 }
 
 
@@ -117,13 +110,14 @@ void CareUnit::update()
     }
 
     // updating all the patient's objects
-    for (auto &patientPair: _nameToPatient)
+    auto vPatients = _nameToPatient.toVector();
+    for (auto &patientPair: vPatients)
     {
-        patientPair.second.update();
+        patientPair.update();
     }
 }
 
 bool CareUnit::hasPatients() const
 {
-    return !(_nameToPatient.empty());
+    return !(_nameToPatient.isEmpty());
 }
