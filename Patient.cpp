@@ -122,12 +122,34 @@ void Patient::generateMeasurement()
 
     uint8_t heartRate, systolicBP, diastolicBP;
 
-    //heart rate:
-    heartRate = Utils::rng(220);
 
-    // blood pressure
-    diastolicBP = Utils::rng(30, 190);
-    systolicBP = Utils::rng(diastolicBP, 220);
+    // critical Heart rate < 30 or > 130
+    // critical BP:
+    // sys < 90 or dias < 60
+    // sys > 180 and/or dias > 120
+
+
+    int ran = Utils::rng(100);
+    if (ran < 1)
+    {
+        // generate critical - normal measurements
+        //heart rate:
+        heartRate = Utils::rng(220);
+
+        // blood pressure
+        diastolicBP = Utils::rng(30, 190);
+        systolicBP = Utils::rng(diastolicBP, 220);
+    } else
+    {
+        // generate normal measurements
+        //heart rate:
+        heartRate = Utils::rng(40, 100);
+
+        // blood pressure
+        diastolicBP = Utils::rng(90, 120);
+        systolicBP = Utils::rng(diastolicBP, 180);
+    }
+
 
     this->addMeasurement(systolicBP, diastolicBP, heartRate);
 
@@ -162,12 +184,15 @@ void Patient::update()
     bool isBpCritical = (systolicBP < 90 || diastolicBP < 60) || (systolicBP > 180 || diastolicBP > 120);
 
 
-//    int releaseRandoNum = Utils::rng(10);
-//    if (releaseRandoNum < 1)
-//    {
-//        release();
-//        return;
-//    }
+    if (_serviceName == "critical")
+    {
+        int releaseRandoNum = Utils::rng(100);
+        if (releaseRandoNum < 3)
+        {
+            release();
+            return;
+        }
+    }
 
     if (isHeartRateCritical || isBpCritical)
     {

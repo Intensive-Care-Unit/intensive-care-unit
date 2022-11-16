@@ -57,8 +57,5 @@ private:
 
     // hashmap of CareUnits (hashed with their names)
     std::unordered_map<std::string, CareUnit> _serviceUnits;
-
-
-    // TODO: comment functions after the ADT change
-
+    
 };
