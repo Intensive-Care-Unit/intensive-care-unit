@@ -58,7 +58,7 @@ uint16_t Patient::getWeight() const
     return _weight;
 }
 
-std::vector<Measurement *> Patient::getHistory()
+std::list<Measurement *> &Patient::getHistory()
 {
     return history;
 }
@@ -69,7 +69,7 @@ void Patient::addMeasurement(uint8_t systolicBP, uint8_t diastolicBP, uint8_t he
     // we used emplace_front() bcs it's faster than push_front()
     // https://yasenh.github.io/post/cpp-diary-1-emplace_back/
 
-    this->history.push_back(new Measurement(systolicBP, diastolicBP, heartRate));
+    this->history.emplace_back(new Measurement(systolicBP, diastolicBP, heartRate));
 }
 
 
@@ -184,21 +184,21 @@ void Patient::update()
     bool isBpCritical = (systolicBP < 90 || diastolicBP < 60) || (systolicBP > 180 || diastolicBP > 120);
 
 
-    if (_serviceName == "critical")
-    {
-        int releaseRandoNum = Utils::rng(100);
-        if (releaseRandoNum < 3)
-        {
-            release();
-            return;
-        }
-    }
-
-    if (isHeartRateCritical || isBpCritical)
-    {
-        moveToCritical();
-        return;
-    }
+//    if (_serviceName == "critical")
+//    {
+//        int releaseRandoNum = Utils::rng(100);
+//        if (releaseRandoNum < 3)
+//        {
+//            release();
+//            return;
+//        }
+//    }
+//
+//    if (isHeartRateCritical || isBpCritical)
+//    {
+//        moveToCritical();
+//        return;
+//    }
 
 }
 
