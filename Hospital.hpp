@@ -41,7 +41,7 @@ public:
     CareUnit &getCriticalUnit();
 
 
-    std::vector<CareUnit> getUnits();
+    std::vector<CareUnit> &getUnits();
 
 
     /**
