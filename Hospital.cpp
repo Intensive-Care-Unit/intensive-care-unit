@@ -106,6 +106,6 @@ CareUnit &Hospital::getCriticalUnit()
 
 std::vector<CareUnit> &Hospital::getUnits()
 {
-    return _serviceUnits
+    return _serviceUnits;
 }
 
