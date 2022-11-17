@@ -104,15 +104,8 @@ CareUnit &Hospital::getCriticalUnit()
     return _serviceUnits[0];
 }
 
-std::vector<CareUnit> Hospital::getUnits()
+std::vector<CareUnit> &Hospital::getUnits()
 {
-    std::vector<CareUnit> out;
-
-    for (auto &unit: _serviceUnits)
-    {
-        out.push_back(unit);
-    }
-
-    return out;
+    return _serviceUnits
 }
 
