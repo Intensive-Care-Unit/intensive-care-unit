@@ -45,7 +45,7 @@ public:
 
     uint16_t getWeight() const;
 
-    std::vector<Measurement *> getHistory();
+    std::list<Measurement *> &getHistory();
 
     bool isDeleted() const;
 
@@ -122,7 +122,7 @@ private:
 
 
     // history of measurements
-    std::vector<Measurement *> history;
+    std::list<Measurement *> history;
 
 
     bool _isDeleted = false;
