@@ -19,13 +19,13 @@ public:
      * */
     bool addUnit(const std::string &unit);
 
-
-    /**
-     * Removes a unit from the services array if it doesn't have _patients
- * @param unit: name of the unit that will be removed from the services
- * @return true if removing unit was successful, otherwise false
- * */
-    bool removeUnit(const std::string &unit);
+//
+//    /**
+//     * Removes a unit from the services array if it doesn't have _patients
+// * @param unit: name of the unit that will be removed from the services
+// * @return true if removing unit was successful, otherwise false
+// * */
+//    bool removeUnit(const std::string &unit);
 
 
     /**
@@ -56,6 +56,8 @@ private:
 
 
     // hashmap of CareUnits (hashed with their names)
-    std::unordered_map<std::string, CareUnit> _serviceUnits;
-    
+//    std::unordered_map<std::string, CareUnit> _serviceUnits;
+
+    std::vector<CareUnit> _serviceUnits;
+
 };
