@@ -19,31 +19,56 @@ Hospital::Hospital()
 
 bool Hospital::addUnit(const std::string &name)
 {
-    auto it = _serviceUnits.find(name);
+//    auto it = _serviceUnits.find(name);
+//
+//    // if it already exists, we return
+//    if (it != _serviceUnits.end())
+//    {
+//        return false;
+//    }
+//
+//    _serviceUnits.insert(std::make_pair(name, CareUnit(name)));
+//
+//    return true;
 
-    // if it already exists, we return
-    if (it != _serviceUnits.end())
+    for (auto &unit: _serviceUnits)
     {
-        return false;
+        if (unit.getServiceName() == name)
+        {
+            return false;
+        }
     }
 
-    _serviceUnits.insert(std::make_pair(name, CareUnit(name)));
+    _serviceUnits.emplace_back(name);
 
     return true;
+
 }
 
 
 CareUnit &Hospital::getServiceUnit(const std::string &name)
 {
-    auto it = _serviceUnits.find(name);
+//    auto it = _serviceUnits.find(name);
+//
+//    if (it != _serviceUnits.end())
+//    {
+//        return (*it).second;
+//    } else
+//    {
+//        throw std::runtime_error("service not found");
+//    }
 
-    if (it != _serviceUnits.end())
+
+    for (auto &_serviceUnit: _serviceUnits)
     {
-        return (*it).second;
-    } else
-    {
-        throw std::runtime_error("service not found");
+        if (_serviceUnit.getServiceName() == name)
+        {
+            return _serviceUnit;
+        }
     }
+
+    throw std::runtime_error("service unit not found");
+
 }
 
 
@@ -56,8 +81,8 @@ void Hospital::update()
             size_t count = 0;
             for (auto &service: _serviceUnits)
             {
-                count += service.second.getPatientsCount();
-                service.second.update();
+                count += service.getPatientsCount();
+                service.update();
             }
 
             system("clear");
@@ -74,45 +99,18 @@ void Hospital::update()
 }
 
 
-bool Hospital::removeUnit(const std::string &name)
-{
-
-    if (_serviceUnits.size() == 2)
-    {
-        return false; // TODO: throw EnoughUnitsException instead
-    }
-
-    auto it = _serviceUnits.find(name);
-
-    // if unit exists
-    if (it != _serviceUnits.end())
-    {
-        if ((*it).second.hasPatients())
-        {
-            return false; // TODO throw HasPatientsException instead
-        } else
-        {
-            _serviceUnits.erase(name);
-        }
-    } else
-    {
-        return false; // TODO: throw PatientDoesntExistException instead
-    }
-}
-
-
 CareUnit &Hospital::getCriticalUnit()
 {
-    return _serviceUnits.at("critical");
+    return _serviceUnits[0];
 }
 
 std::vector<CareUnit> Hospital::getUnits()
 {
     std::vector<CareUnit> out;
 
-    for (auto &pair: _serviceUnits)
+    for (auto &unit: _serviceUnits)
     {
-        out.push_back(pair.second);
+        out.push_back(unit);
     }
 
     return out;
