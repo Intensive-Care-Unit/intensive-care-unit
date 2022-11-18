@@ -78,17 +78,10 @@ void Hospital::update()
     {
         while (true)
         {
-            size_t count = 0;
             for (auto &service: _serviceUnits)
             {
-                count += service.getPatientsCount();
                 service.update();
             }
-
-            system("clear");
-            std::cout << "count: " << count << std::endl;
-
-
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
