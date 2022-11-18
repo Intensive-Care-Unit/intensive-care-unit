@@ -49,13 +49,13 @@ public:
     /**
      * @returns a const reference to a patient using their name
      * */
-    Patient getPatient(const std::string &name) const;
+    Patient &getPatient(const std::string &name);
 
 
     /**
      * @returns a const reference to a patient using their ID
      * */
-    Patient getPatient(uint64_t id) const;
+    Patient &getPatient(uint64_t id);
 
 
     /**

@@ -12,22 +12,14 @@ CareUnit::CareUnit(const std::string &name)
 
 void CareUnit::addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight)
 {
-    Patient patient(_serviceName, name, gender, age, height, weight);
-
-    _idToName.emplace(patient.getId(), patient.getName());
-    _nameToPatient.emplace(patient.getName(), patient);
+    addPatient({_serviceName, name, gender, age, height, weight});
 }
 
 void CareUnit::addPatient(const Patient &patient)
 {
-//    _idToName.insert(std::make_pair(patient.getId(), patient.getName()));
-//    _nameToPatient.insert(std::make_pair(patient.getName(), patient));
-////    _idToName[patient.getId()] = patient.getName();
-
-//    _idToName[patient.getId()] = patient.getName();
-//    _nameToPatient[patient.getName()] = patient;
+    _idToName.emplace(patient.getId(), patient.getName());
+    _nameToPatient.emplace(patient.getName(), patient);
 }
-
 
 void CareUnit::removePatient(uint64_t id)
 {
@@ -130,13 +122,13 @@ void CareUnit::addRandomPatient()
 }
 
 
-Patient CareUnit::getPatient(const std::string &name) const
+Patient &CareUnit::getPatient(const std::string &name)
 {
     return _nameToPatient.at(name);
 }
 
 
-Patient CareUnit::getPatient(uint64_t id) const
+Patient &CareUnit::getPatient(uint64_t id)
 {
     return getPatient(_idToName.at(id));
 }
@@ -155,7 +147,7 @@ void CareUnit::update()
     }
 
 
-    // probability of 1/2 to add 3 patients
+    // probability of 3/5 to add 3 patients
     int randomNum = Utils::rng(100);
     if (randomNum >= 40) // add 3 patients
     {
@@ -202,6 +194,5 @@ bool CareUnit::hasPatients() const
 
 size_t CareUnit::getPatientsCount() const
 {
-    std::cout << "size of " << _serviceName << ": " << _idToName.size() << std::endl;
     return _idToName.size();
 }

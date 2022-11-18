@@ -101,7 +101,7 @@ void Patient::moveToCritical()
     // removing the patient from the current unit and adding them to the critical unit
     currentUnit.removePatient(_id);
 //    remove();
-    criticalUnit.addPatient(_name, _gender, _age, _height, _weight);
+    criticalUnit.addPatient({_serviceName, _name, _gender, _age, _height, _weight});
 
 }
 
@@ -201,15 +201,4 @@ void Patient::update()
 //    }
 
 }
-
-void Patient::remove()
-{
-    this->_isDeleted = true;
-}
-
-bool Patient::isDeleted() const
-{
-    return _isDeleted;
-}
-
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include "State.hpp"
 #include "Hospital.hpp"
 
 using namespace std;
@@ -12,10 +13,13 @@ using namespace std;
 
 int main()
 {
-    Hospital h;
+    Hospital* h = State::getHospital();
 
     thread f([&]()
-             { h.update(); });
+             { h->update(); });
+
+
+
 
 
 
