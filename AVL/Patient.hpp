@@ -53,13 +53,13 @@ public:
 
 
     /**
-     * Procedurally generates measurements and adds them to the patient's history
+     * Procedurally generates measurements and adds them to the patient's _history
      * */
     void generateMeasurement();
 
 
     /**
-     * adds a new measurement to the history of the patient from the parameters
+     * adds a new measurement to the _history of the patient from the parameters
      * @param pressure in //TODO unit
      * @param heartRate in //TODO unit
      * */
@@ -87,7 +87,7 @@ public:
 
 
     /**
-     * @brief Generates a measurement and adds it to the history, might check for the patient's last measurement to decide whether they should be moved to the critical unit,
+     * @brief Generates a measurement and adds it to the _history, might check for the patient's last measurement to decide whether they should be moved to the critical unit,
      * @attention takes into consideration the unit the patient belongs to (if he is already in critical unit, no need to move him to it)
      */
     void update();
@@ -121,8 +121,8 @@ private:
     uint16_t _weight; // in kg;  uint16, bcs weight can be more than 255
 
 
-    // history of measurements
-    std::list<Measurement *> history;
+    // _history of measurements
+    std::list<Measurement *> _history;
 
 
 };

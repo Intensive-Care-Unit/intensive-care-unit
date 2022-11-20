@@ -1,4 +1,5 @@
 
+
 #include "State.hpp"
 #include <iostream>
 #include <fstream>
@@ -13,7 +14,7 @@ int main()
     auto unit = State::getHospital()->getCriticalUnit();
 
     ofstream csv;
-    csv.open("addPatients-HM.csv");
+    csv.open("addPatients-BST.csv");
 
     csv << "n,t" << endl;
 
@@ -25,7 +26,7 @@ int main()
         unit.addPatient({"critical", "name " + istr, 'm', 19, 150, 90});
         auto end = steady_clock::now();
 
-        if (i % 100 == 0)
+        if (i % 1000 == 0)
         {
             auto duration = (long long int) chrono::duration_cast<chrono::nanoseconds>(end - start).count();
 

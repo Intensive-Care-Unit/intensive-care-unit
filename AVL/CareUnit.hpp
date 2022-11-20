@@ -6,7 +6,7 @@
 #include <chrono>
 #include <random>
 #include <cassert>
-#include "BinarySearchTree.h"
+#include "AvlTree.h"
 
 
 class CareUnit
@@ -67,11 +67,11 @@ private:
 
 
     // a binary search tree that maps each patient's id to their name
-    BinarySearchTree<uint64_t, std::string> _idToName;
+    AvlTree<uint64_t, std::string> _idToName;
 
 
     // a binary search tree that maps each patient's name to their Patient object
-    BinarySearchTree<std::string, Patient> _nameToPatient;
+    AvlTree<std::string, Patient> _nameToPatient;
 
 
     // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1456.html
@@ -98,8 +98,6 @@ private:
      * @attention add patient's id to _patientIds array taking into consideration _deletedPatientsIndexes
      * */
     void addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight);
-
-
 
 
 };

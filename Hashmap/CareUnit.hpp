@@ -19,11 +19,6 @@ public:
 
     const std::string &getServiceName() const;
 
-    /**
-     * procedurally adds new patients, releases ones, and marks ones as dead (thus removed from the record)
-     * this function is ran by the update() method in Hospital.hpp
-     * */
-    void update();
 
     /**
      * @brief procedurally generates a patient's info and calls addRandomPatient(name, gender, age, height, weight) to add him to the hashmaps
@@ -32,10 +27,15 @@ public:
 
 
     /*
- * Adds a patient from an existing patient object
- */
+    * Adds a patient from an existing patient object
+    */
     void addPatient(const Patient &patient);
 
+
+    /**
+    * @brief Adds a new patient to the patients hashmaps
+    * */
+    void addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight);
 
     /**
      * Removes a patient from the patients hashmaps by their id
@@ -69,10 +69,11 @@ public:
 
 
     /**
- * @brief Adds a new patient to the patients hashmaps
- * @attention add patient's id to _patientIds array taking into consideration _deletedPatientsIndexes
- * */
-    void addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight);
+    * procedurally adds new patients, releases ones, and marks ones as dead (thus removed from the record)
+    * this function is ran by the update() method in Hospital.hpp
+    * */
+    void update();
+
 
 private:
     // name of the service the care unit belongs to, must be initialized
@@ -87,30 +88,8 @@ private:
     std::unordered_map<std::string, Patient> _nameToPatient;
 
 
-    int deletedPatientsCount = 0;
-
 
 
     // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1456.html
-
-
-// TODO remove lazy deletion stuff from update() methods
-//    // a vector array of the patient's IDS, we'll use it to traverse the patients in order to update them or print them in O(n) time
-//    // if a patient is deleted, their ID is turned into -1 (for lazy deletion)
-//    // we'll keep the indexes of the deleted patients in a linked list (below) to insert new patients into the deleted positions
-//    std::vector<uint64_t> _patientsIds;
-//
-//
-//    // doubly linked list of the deleted patients indexes in _patientsIds vector array
-//    std::list<size_t> _deletedPatientsIndexes;
-
-
-
-
-
-/****************** Utilities ***********************/
-
-
-
 
 };

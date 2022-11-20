@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 include_directories(.)
 
+
 add_executable(BinaryTree
         BinarySearchTree.h
         CareUnit.cpp
@@ -23,6 +24,24 @@ add_executable(BinaryTree
         State.hpp
         Utils.hpp)
 
+add_executable(BinaryTreeTest
+        Test.cpp
+        BinarySearchTree.h
+        CareUnit.cpp
+        CareUnit.hpp
+        Data.cpp
+        Data.hpp
+        dsexceptions.h
+        Hospital.cpp
+        Hospital.hpp
+        Measurement.cpp
+        Measurement.hpp
+        Patient.cpp
+        Patient.hpp
+        State.cpp
+        State.hpp
+        Utils.hpp)
+
 
 # to copy the data/ folder to the build folder on each build
 add_custom_command(
@@ -32,3 +51,4 @@ add_custom_command(
         ${CMAKE_CURRENT_BINARY_DIR}/data)
 
 target_link_libraries(BinaryTree)
+target_link_libraries(BinaryTreeTest)

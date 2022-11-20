@@ -60,7 +60,7 @@ uint16_t Patient::getWeight() const
 
 std::list<Measurement *> &Patient::getHistory()
 {
-    return history;
+    return _history;
 }
 
 void Patient::addMeasurement(uint8_t systolicBP, uint8_t diastolicBP, uint8_t heartRate)
@@ -69,7 +69,7 @@ void Patient::addMeasurement(uint8_t systolicBP, uint8_t diastolicBP, uint8_t he
     // we used emplace_front() bcs it's faster than push_front()
     // https://yasenh.github.io/post/cpp-diary-1-emplace_back/
 
-    this->history.emplace_back(new Measurement(systolicBP, diastolicBP, heartRate));
+    this->_history.emplace_back(new Measurement(systolicBP, diastolicBP, heartRate));
 }
 
 
@@ -168,12 +168,12 @@ void Patient::update()
     // sys < 90 or dias < 60
     // sys > 180 and/or dias > 120
 
-    if (history.empty())
+    if (_history.empty())
     {
         return;
     }
 
-    Measurement *lastMeasurement = history.back();
+    Measurement *lastMeasurement = _history.back();
 
     int systolicBP = lastMeasurement->getBloodPressure().first;
     int diastolicBP = lastMeasurement->getBloodPressure().second;

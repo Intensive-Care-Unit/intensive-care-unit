@@ -1,4 +1,5 @@
 
+
 #include "State.hpp"
 #include <iostream>
 #include <fstream>
@@ -10,10 +11,10 @@ using namespace chrono;
 
 int main()
 {
-    auto unit = State::getHospital()->getCriticalUnit();
+    auto &unit = State::getHospital()->getCriticalUnit();
 
     ofstream csv;
-    csv.open("addPatients-HM.csv");
+    csv.open("addPatients-AVL.csv");
 
     csv << "n,t" << endl;
 
@@ -29,6 +30,7 @@ int main()
         {
             auto duration = (long long int) chrono::duration_cast<chrono::nanoseconds>(end - start).count();
 
+            cout << unit.getPatients().size() << endl;
             csv << to_string(unit.getPatients().size()) << "," << to_string(duration) << endl;
         }
     }

@@ -11,22 +11,8 @@ class Patient
 {
 public:
 
-    typedef std::unordered_map<std::string, Patient *>::iterator patientsIterator;
-
     Patient(const std::string &serviceName, const std::string &name, uint8_t gender, uint8_t age,
             uint8_t height, uint16_t weight);
-
-
-//    Patient() = default;
-
-    // custom copy assignment since it will be implicitly deleted bcs of having const members
-//    Patient &operator=(const Patient &p) = default;
-//
-//    Patient &operator=(Patient &&p) = default;
-//
-//    Patient(const Patient &p) = default;
-//
-//    Patient(Patient &&p) = default;
 
 
 /*********************************
@@ -49,19 +35,24 @@ public:
 
     bool isDeleted() const;
 
+
+/*********************************
+*          Functionality
+********************************/
+
     void remove();
 
 
     /**
-     * Procedurally generates measurements and adds them to the patient's history
+     * Procedurally generates measurements and adds them to the patient's _history
      * */
     void generateMeasurement();
 
 
     /**
-     * adds a new measurement to the history of the patient from the parameters
-     * @param pressure in //TODO unit
-     * @param heartRate in //TODO unit
+     * adds a new measurement to the _history of the patient from the parameters
+     * @param pressure in mmHG
+     * @param heartRate in BPM
      * */
     void addMeasurement(uint8_t systolicBP, uint8_t diastolicBP, uint8_t heartRate);
 
@@ -87,7 +78,7 @@ public:
 
 
     /**
-     * @brief Generates a measurement and adds it to the history, might check for the patient's last measurement to decide whether they should be moved to the critical unit,
+     * @brief Generates a measurement and adds it to the _history, might check for the patient's last measurement to decide whether they should be moved to the critical unit,
      * @attention takes into consideration the unit the patient belongs to (if he is already in critical unit, no need to move him to it)
      */
     void update();
@@ -122,7 +113,7 @@ private:
 
 
     // history of measurements
-    std::list<Measurement *> history;
+    std::list<Measurement *> _history;
 
 
     bool _isDeleted = false;
