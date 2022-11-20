@@ -45,19 +45,13 @@ public:
 
 
     /**
-     * a function that runs in a different thread, it runs a loop to go through all CareUnit objects in _services and for each one, it procedurally adds/removes _patients, as well as adds new measurements to their history, runs in a constant interval of time (//TODO define the interval that the function runs on)
+     * a function that runs in a different thread, it runs a loop to go through all CareUnit objects in _services and for each one, it procedurally adds/removes _patients, as well as adds new measurements to their _history, runs in a constant interval of time (//TODO define the interval that the function runs on)
      * */
     void update();
 
 
 private:
     // array of the care units, index 0 is the critical unit object
-//    std::vector<CareUnit> _services;
-
-
-    // hashmap of CareUnits (hashed with their names)
-//    std::unordered_map<std::string, CareUnit> _serviceUnits;
-
     std::vector<CareUnit> _serviceUnits;
 
 };

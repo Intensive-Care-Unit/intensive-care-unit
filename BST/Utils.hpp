@@ -4,6 +4,8 @@
 #include <chrono>
 #include <cassert>
 #include <random>
+#include <iostream>
+
 
 // a class for utility functions
 class Utils
@@ -43,6 +45,21 @@ public:
         std::uniform_int_distribution<int> distr(a, b);
 
         return static_cast<int>(distr(num));
+    }
+
+
+    /**
+ * @returns a random number in a an undefinite range
+ */
+    static uint64_t rng()
+    {
+        auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+        std::mt19937 num(seed);
+
+        uint64_t n = num();
+
+        return static_cast<uint64_t>(n);
     }
 
 };

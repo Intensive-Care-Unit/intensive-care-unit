@@ -30,3 +30,4 @@ private:
 
     const uint8_t _heartRate;      // heart rate in BPM
 };
+
