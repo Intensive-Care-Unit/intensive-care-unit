@@ -24,9 +24,11 @@ void CareUnit::addPatient(const std::string &name, uint8_t gender, uint8_t age, 
 
 void CareUnit::addPatient(const Patient &patient)
 {
-    _nameToPatient.insert(patient.getName(), patient);
-    _idToName.insert(patient.getId(), patient.getName());
-
+    if (!_idToName.contains(patient.getId()))
+    {
+        _nameToPatient.insert(patient.getName(), patient);
+        _idToName.insert(patient.getId(), patient.getName());
+    }
 }
 
 

@@ -48,6 +48,17 @@ bool Hospital::addUnit(const std::string &name)
 
 CareUnit &Hospital::getServiceUnit(const std::string &name)
 {
+//    auto it = _serviceUnits.find(name);
+//
+//    if (it != _serviceUnits.end())
+//    {
+//        return (*it).second;
+//    } else
+//    {
+//        throw std::runtime_error("service not found");
+//    }
+
+
     for (auto &_serviceUnit: _serviceUnits)
     {
         if (_serviceUnit.getServiceName() == name)
