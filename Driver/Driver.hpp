@@ -1,9 +1,9 @@
 #include "Hospital.hpp"
 #include "State.hpp"
 #include "DriverHelperFunctions.hpp"
-
+#include <ctime>
 // Gets the role, doctor or director
-int selectRole();
+std::string selectRole();
 // Prints all units in the hospital
 void printUnits();
 // Allows the user to choose a unit from the menu
@@ -19,28 +19,43 @@ void optionsOnPatientSelection(int unitIndex);
 void managePatient(uint64_t id, int unitIndex);
 // Runs on a separate thread, checks for a new measurement from the UPDATE function in care unit and patient
 void checkNewMeasurement(Patient* p);
-std::string quitThread = "1H174UVmdLf4wgGN2URmHAZG8YqszID06XP6Ggf8"; // Global variable used to check if the user wants the quit the separate thread of excution
+char quitThread ='\0'; // Global variable used to check if the user wants the quit the separate thread of excution
 
 // These two functions return a boolean on whether a given patient exists or not
 bool patientExists(uint64_t id, int unitIndex);
 bool patientExists(std::string& name, int unitIndex);
 
+// Clears the terminal
+void clear() {
+    #if defined _WIN32
+        system("cls");
+    #elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+        system("clear");
+    #elif defined (__APPLE__)
+        system("clear");
+    #endif
+}
+
+// Convert epoch time to normal time
+tm* epochTimeToHumanTime(time_t epochTime){
+    time_t et = epochTime;
+	return gmtime(&et);
+}
+
 
 // Returns an int to be used as role (0 means doctor 1 means director)
-int selectRole() {
+std::string selectRole() {
     // Print the roles in table
     VariadicTable<std::string, std::string> vt({"Role 0", "Role 1"}, 15);
     vt.addRow("Doctor", "Director");
     vt.print(std::cout);
 
     // Role selection
-    int role = -1;
-    std::cout << "Select a role > ";
-    std::cin >> role; 
-    while (role > 1 || role < 0){
-        std::cout << "Please select valid role > ";
+    std::string role = "-1";
+    do {
+        std::cout << "Select a role > ";
         std::cin >> role; 
-    }
+    } while (role != "1" && role != "0");
     return role;
 }
 
@@ -53,9 +68,10 @@ int getUnitIndexFromUser() {
         do {
             std::cout << "Select from [0-" << units.size()-1 << "] for unit: ";
             std::cin >> unitNum;
+
         } while (unitNum > units.size()-1 || unitNum < 0);
-        
-        return unitNum;
+
+        return (unitNum);
 }
 
 // Function to print all the units in the hospital
@@ -96,7 +112,7 @@ int selectUnitDirector() {
         }
 
         if (choice == "2") {
-            system("clear");
+            clear();
             printUnits();
             selectedUnitIndex = getUnitIndexFromUser();
         } else {
@@ -113,11 +129,13 @@ int selectUnitDirector() {
 // Runs on a separate thread, checks for a new measurement from the UPDATE function in care unit and patient
 void checkNewMeasurement(Patient* p) {
     using namespace std::literals::chrono_literals;
-    while (quitThread == "1H174UVmdLf4wgGN2URmHAZG8YqszID06XP6Ggf8") {
+    while (quitThread == '\0') {
         auto m = *p->getHistory().back();
+        auto humanTime = epochTimeToHumanTime(m.getTime());
         std::cout << printDouble((double)m.getHeartRate(),2,20)       << " | "
-                      << printDouble((double)m.getBloodPressure().first, 2,20)     << " | "
-                      << printDouble((double)m.getBloodPressure().second,2,20) << "\n";
+            << printDouble((double)m.getBloodPressure().first, 2,20)     << " | "
+            << printDouble((double)m.getBloodPressure().second,2,20) << " | " 
+            << humanTime->tm_hour << ":" << humanTime->tm_min << ":" << humanTime->tm_sec << "\n";
 
         std::this_thread::sleep_for(1s);
     }
@@ -142,7 +160,7 @@ void printPatients(int unitIndex) {
 
 // After selecting a patient by its ID or NAME, this function selects
 void managePatient(uint64_t id, int unitIndex) {
-    system("clear");
+    clear();
     Hospital* h = State::getHospital();
     Patient& p = h->getUnits()[unitIndex].getPatient(id);
     // Print patients info in table
@@ -163,21 +181,25 @@ void managePatient(uint64_t id, int unitIndex) {
         // VariadicTable<int, int, int> vt({"Heart Pulses", "Systolic ", "Diastolic"}, 15);
         std::cout << center("Pulses (bpm)",20)       << " | "
         << center("Systolic (mmHg)",20)     << " | "
-        << center("Diastolic (mmHg)",20) << "\n";
+        << center("Diastolic (mmHg)",20)
+        << center("Date",20) << "\n";
         for(std::list<Measurement*>::iterator hisIter = his.begin(); hisIter != his.end(); hisIter++) {
             Measurement m = **hisIter;
+            auto humanTime = epochTimeToHumanTime(m.getTime());
             // vt.addRow( (int)m.getHeartRate(), (int)m.getBloodPressure().first , (int)m.getBloodPressure().second);
 
              std::cout << printDouble((int)m.getHeartRate(),2,20)       << " | "
                       << printDouble((int)m.getBloodPressure().first, 2,20)     << " | "
-                      << printDouble((int)m.getBloodPressure().second,2,20) << "\n";
+                      << printDouble((int)m.getBloodPressure().first, 2,20) << " | " 
+                      << humanTime->tm_hour << ":" << humanTime->tm_min << ":" << humanTime->tm_sec << "\n";
         }
         // vt.print(std::cout);
 
         // Running the function that gets a new measurment on a new thread
         std::thread checkThread(checkNewMeasurement, &p);
-        std::cin >> std::ws;
-        std::getline(std::cin, quitThread);
+        // std::cin >> std::ws;
+        // std::getline(std::cin, quitThread);
+        std::cin >> quitThread;
         checkThread.join();
 
     } else if (option == 2) {
@@ -266,13 +288,13 @@ bool patientExists(std::string& name, int unitIndex) {
 
 void Driver() {
     while (true) {
-        int selectedRole = selectRole();
-        system("clear");
+        std::string selectedRole = selectRole();
+        clear();
         // Returns an int: index to the unit in the CareUnits vector in hospital
-        int selectedUnit = selectedRole == 0 ? selectUnitDoctor() : selectUnitDirector();
-        system("clear");
+        int selectedUnit = selectedRole == "0" ? selectUnitDoctor() : selectUnitDirector();
+        clear();
         printPatients(selectedUnit) ;
         optionsOnPatientSelection(selectedUnit) ;
-        system("clear");
+        clear();
     } 
 }
