@@ -14,7 +14,7 @@ using namespace std;
 //
 // ******************PUBLIC OPERATIONS*********************
 // void insert( x )       --> Insert x
-// void remove( x )       --> Remove x (unimplemented)
+// void markAsDeleted( x )       --> Remove x (unimplemented)
 // bool contains( x )     --> Return true if x is present
 // Comparable findMin( )  --> Return smallest item
 // Comparable findMax( )  --> Return largest item
@@ -288,8 +288,8 @@ private:
     }
 
     /**
-     * Internal method to remove from a subtree.
-     * x is the item to remove.
+     * Internal method to markAsDeleted from a subtree.
+     * x is the item to markAsDeleted.
      * t is the node that roots the subtree.
      * Set the new root of the subtree.
      */

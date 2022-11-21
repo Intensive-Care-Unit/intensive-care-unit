@@ -33,8 +33,8 @@ void CareUnit::removePatient(uint64_t id)
 
         if (it2 != _nameToPatient.end())
         {
-//            _nameToPatient.at(name).remove();
-            (*it2).second.remove();
+//            _nameToPatient.at(name).markAsDeleted();
+            (*it2).second.markAsDeleted();
             _idToName.erase(it);
         }
 
@@ -48,7 +48,7 @@ void CareUnit::removePatient(uint64_t id)
 //
 //        if (it2 != _nameToPatient.end())
 //        {
-//            _nameToPatient.at(name).remove();
+//            _nameToPatient.at(name).markAsDeleted();
 ////            _idToName.erase(id);
 //        }
 ////        std::cout << _idToName.size() << std::endl;
@@ -85,7 +85,7 @@ void CareUnit::addRandomPatient()
     PatientData patientInfo = State::getData()->generatePatientData();
 
     // generating age:
-    uint8_t age = Utils::rng(200);
+    uint8_t age = Utils::rng(100);
 
     uint8_t height, weight;
 
@@ -136,8 +136,7 @@ Patient &CareUnit::getPatient(uint64_t id)
 
 void CareUnit::update()
 {
-
-    //    // updating all the patient's objects
+    // updating all the patient's objects
     for (auto &patientPair: _nameToPatient)
     {
         if (!(patientPair.second.isDeleted()))
@@ -145,7 +144,6 @@ void CareUnit::update()
             patientPair.second.update();
         }
     }
-
 
     // probability of 3/5 to add 3 patients
     int randomNum = Utils::rng(100);
@@ -160,16 +158,12 @@ void CareUnit::update()
     }
 
 
-
-
-
-// TODO fix lazy deletion
     size_t countOfDeleted = _nameToPatient.size() - _idToName.size();
 //    std::cout << "size of deleted: " << countOfDeleted << std::endl;
     if ((countOfDeleted * 2) >= _idToName.size())
     {
         auto it = _nameToPatient.cbegin();
-        // we remove patients with the flag "isDeleted" set to true
+        // we markAsDeleted patients with the flag "isDeleted" set to true
         while (it != _nameToPatient.cend())
         {
             if ((*it).second.isDeleted())

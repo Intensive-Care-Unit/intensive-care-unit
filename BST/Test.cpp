@@ -18,19 +18,27 @@ int main()
 
     csv << "n,t" << endl;
 
+    int EXP = 20;
 
     for (int i = 1; i <= 100000; i++)
     {
-        string istr = to_string(i);
-        auto start = steady_clock::now();
-        unit.addPatient({"critical", "name " + istr, 'm', 19, 150, 90});
-        auto end = steady_clock::now();
-
-        if (i % 1000 == 0)
+        long long int average = 0;
+        for (int a = 1; a <= EXP; a++)
         {
+            string istr = to_string(i);
+            auto start = steady_clock::now();
+            unit.addPatient({"critical", "name " + istr, 'm', 19, 150, 90});
+            auto end = steady_clock::now();
+
             auto duration = (long long int) chrono::duration_cast<chrono::nanoseconds>(end - start).count();
 
-            csv << to_string(unit.getPatients().size()) << "," << to_string(duration) << endl;
+            average += duration / EXP;
+
+        }
+
+        if (i % 100 == 0)
+        {
+            csv << to_string(unit.getPatients().size()) << "," << to_string(average) << endl;
         }
     }
 

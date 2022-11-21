@@ -61,6 +61,14 @@ public:
      * */
     std::vector<Patient> getPatients() const;
 
+
+    /**
+ * @brief Adds a new patient to the patients hashmaps
+ * @attention add patient's id to _patientIds array taking into consideration _deletedPatientsIndexes
+ * */
+    void addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight);
+
+
 private:
     // name of the service the care unit belongs to, must be initialized
     const std::string _serviceName;
@@ -77,7 +85,7 @@ private:
     // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1456.html
 
 
-// TODO remove lazy deletion stuff from update() methods
+// TODO markAsDeleted lazy deletion stuff from update() methods
 //    // a vector array of the patient's IDS, we'll use it to traverse the patients in order to update them or print them in O(n) time
 //    // if a patient is deleted, their ID is turned into -1 (for lazy deletion)
 //    // we'll keep the indexes of the deleted patients in a linked list (below) to insert new patients into the deleted positions
@@ -93,11 +101,6 @@ private:
 
 /****************** Utilities ***********************/
 
-    /**
-     * @brief Adds a new patient to the patients hashmaps
-     * @attention add patient's id to _patientIds array taking into consideration _deletedPatientsIndexes
-     * */
-    void addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight);
 
 
 };

@@ -40,7 +40,7 @@ public:
 *          Functionality
 ********************************/
 
-    void remove();
+    void markAsDeleted();
 
 
     /**
@@ -73,7 +73,7 @@ public:
     void moveToCritical();
 
 
-    // TODO remove later, just for testing if code works
+    // TODO markAsDeleted later, just for testing if code works
     void print() const;
 
 

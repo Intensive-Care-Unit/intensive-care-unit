@@ -100,8 +100,8 @@ void Patient::moveToCritical()
 
     // removing the patient from the current unit and adding them to the critical unit
     currentUnit.removePatient(_id);
-//    remove();
-    criticalUnit.addPatient({_serviceName, _name, _gender, _age, _height, _weight});
+//    markAsDeleted();
+    criticalUnit.addPatient(_name, _gender, _age, _height, _weight);
 
 }
 
@@ -109,7 +109,7 @@ void Patient::release()
 {
     auto &currentUnit = State::getHospital()->getServiceUnit(_serviceName);
     currentUnit.removePatient(_id);
-//    remove();
+//    markAsDeleted();
 }
 
 void Patient::generateMeasurement()
@@ -201,4 +201,17 @@ void Patient::update()
 //    }
 
 }
+
+void Patient::markAsDeleted()
+{
+    this->_isDeleted = true;
+}
+
+bool Patient::isDeleted() const
+{
+    return _isDeleted;
+}
+
+
+
 
