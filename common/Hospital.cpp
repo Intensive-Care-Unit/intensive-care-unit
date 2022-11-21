@@ -18,7 +18,7 @@ Hospital::Hospital()
     addUnit("critical");
     addUnit("cardiology");
     addUnit("pulmonology");
-    addUnit("gynaecology");
+    addUnit("gynecology");
 }
 
 
@@ -66,7 +66,7 @@ void Hospital::update()
             {
                 service.update();
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            std::this_thread::sleep_for(std::chrono::seconds(2));
         }
     }
     catch (std::runtime_error &e)

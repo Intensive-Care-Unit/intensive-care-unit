@@ -9,7 +9,7 @@ add_subdirectory("Hashmap")
 add_subdirectory("AVL")
 add_subdirectory("BST")
 
-include_directories(common Hashmap)
+include_directories(Hashmap Driver include)
 
 add_executable(CareUnitSystem
         main.cpp
@@ -20,3 +20,12 @@ add_executable(CareUnitSystem
         Hashmap/Patient.cpp
         common/State.cpp)
 
+
+# to copy the _data/ folder to the build folder on each build
+add_custom_command(
+        TARGET CareUnitSystem PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/data
+        ${CMAKE_CURRENT_BINARY_DIR}/data)
+
+target_link_libraries(CareUnitSystem)

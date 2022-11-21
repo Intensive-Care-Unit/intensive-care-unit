@@ -1,16 +1,18 @@
-#include <iostream>
 #include <thread>
 #include "Hospital.hpp"
-
-using namespace std;
-
+#include "State.hpp"
+#include "VariadicTable.h"
+#include "Driver.hpp"
 
 int main()
 {
-    // rest of code here
+    Hospital *h = State::getHospital();
+    std::thread f([&]()
+                  { h->update(); });
 
+    // The main driver program
+    Driver();
 
-    // to wait for update() to finish before finishing the program's execution, prevents exiting the program while the thread is still running
-
+    f.join();
     return 0;
 }

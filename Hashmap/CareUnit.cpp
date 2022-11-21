@@ -75,7 +75,7 @@ void CareUnit::addRandomPatient()
     PatientData patientInfo = State::getData()->generatePatientData();
 
     // generating age:
-    uint8_t age = Utils::rng(200);
+    uint8_t age = Utils::rng(100);
 
     uint8_t height, weight;
 
@@ -137,14 +137,12 @@ void CareUnit::update()
     }
 
 
-    // probability of 3/5 to add 3 patients
+    // probability of 3/5 to add 1 patient to the current unit
     int randomNum = Utils::rng(100);
-    if (randomNum >= 40) // add 3 patients
+    if (randomNum >= 40)
     {
         if (_serviceName != "critical")
         {
-            addRandomPatient();
-            addRandomPatient();
             addRandomPatient();
         }
     }

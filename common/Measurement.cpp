@@ -23,10 +23,10 @@ Measurement::Measurement(uint8_t systolicBP, uint8_t diastolicBP, uint8_t heartR
         :
         _bloodPressure(make_pair(systolicBP, diastolicBP))
         , _heartRate(heartRate)
-        , _time(duration_cast<seconds>(system_clock::now().time_since_epoch()).count())
+        , _time(time(nullptr))
 {}
 
-uint64_t Measurement::getTime() const
+time_t Measurement::getTime() const
 {
     return _time;
 }
@@ -40,3 +40,5 @@ uint8_t Measurement::getHeartRate() const
 {
     return _heartRate;
 }
+
+
