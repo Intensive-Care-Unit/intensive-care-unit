@@ -151,7 +151,7 @@ void Patient::generateMeasurement()
 
 void Patient::update()
 {
-    // add a new measurement to the current patient
+    // add measurement
     generateMeasurement();
 
     // based on the new measurement, decide whether to move patient to critical
@@ -176,22 +176,6 @@ void Patient::update()
     bool isHeartRateCritical = heartRate < 30 || heartRate > 130;
     bool isBpCritical = (systolicBP < 90 || diastolicBP < 60) || (systolicBP > 180 || diastolicBP > 120);
 
-
-
-     /*****************************************************************************************
-     *                                  NOTICE:  *                                            *
-     * ****************************************************************************************
-      * We have remove the feature of procedurally removing patients and/or moving them to critical care unit based
-      * on their measurements (if they are critical),
-      * due to the fact that the driver program is running in a separate thread, and it might request to access a deleted
-      * patient, so instead in the future if we want to implement this, we'd need to use an Observer Design pattern to
-      * notify all other program parts when a patient gets remove so that we can update the screen and not show them
-      * We didn't implement this, mainly because it's hard to do in a program running in the terminal, and would have
-      * been easier if we had a GUI library to handle this painlessly
-      * (one of the problems about terminal programs is that, if we were to clear the screen and write new output into it,
-      * and this process wouldn't clear the user's input from the STDIN buffer, but it would appear to the user as if
-      * their input was deleted).
-     * */
 
 //    if (_serviceName == "critical")
 //    {

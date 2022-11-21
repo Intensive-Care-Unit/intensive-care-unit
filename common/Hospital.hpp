@@ -60,6 +60,12 @@ public:
 
 private:
     // array of the care units, index 0 is the critical unit object
+//    std::vector<CareUnit> _services;
+
+
+    // hashmap of CareUnits (hashed with their names)
+//    std::unordered_map<std::string, CareUnit> _serviceUnits;
+
     std::vector<CareUnit> _serviceUnits;
 
 };
