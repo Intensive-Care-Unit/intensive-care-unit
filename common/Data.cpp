@@ -42,7 +42,7 @@ PatientData DataSets::generatePatientData()
 DataSets::DataSets()
 {
     // read name csv file
-    std::ifstream file("data/names.csv", std::ios::in);
+    std::ifstream file("_data/names.csv", std::ios::in);
 
     if(!file)
     {
