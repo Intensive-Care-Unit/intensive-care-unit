@@ -141,7 +141,7 @@ void checkNewMeasurement(Patient* p) {
                   << printDouble((double)m.getBloodPressure().second,2,20) << " | ";
 
                 printf("%02d:%02d:%02d GMT\n",humanTime->tm_hour, humanTime->tm_min , humanTime->tm_sec);
-        std::this_thread::sleep_for(3s);
+        std::this_thread::sleep_for(2s);
     }
 }
 
