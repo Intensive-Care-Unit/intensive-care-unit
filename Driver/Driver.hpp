@@ -135,7 +135,7 @@ void checkNewMeasurement(Patient* p) {
         std::cout << printDouble((double)m.getHeartRate(),2,20)       << " | "
             << printDouble((double)m.getBloodPressure().first, 2,20)     << " | "
             << printDouble((double)m.getBloodPressure().second,2,20) << " | " 
-            << humanTime->tm_hour << ":" << humanTime->tm_min << ":" << humanTime->tm_sec << "\n";
+            << humanTime->tm_hour << ":" << humanTime->tm_min << ":" << humanTime->tm_sec << " GMT" <<"\n";
 
         std::this_thread::sleep_for(1s);
     }
@@ -191,7 +191,7 @@ void managePatient(uint64_t id, int unitIndex) {
              std::cout << printDouble((int)m.getHeartRate(),2,20)       << " | "
                       << printDouble((int)m.getBloodPressure().first, 2,20)     << " | "
                       << printDouble((int)m.getBloodPressure().first, 2,20) << " | " 
-                      << humanTime->tm_hour << ":" << humanTime->tm_min << ":" << humanTime->tm_sec << "\n";
+                      << humanTime->tm_hour << ":" << humanTime->tm_min << ":" << humanTime->tm_sec << " GMT" << "\n";
         }
         // vt.print(std::cout);
 
