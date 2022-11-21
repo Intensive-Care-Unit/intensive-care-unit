@@ -4,11 +4,6 @@
 
 using namespace std;
 
-/*
- * TODO: finish update implementations (procedural generation of _data)
- * TODO: make testing _data set
- * TODO: make functions to import the _data sets
- */
 
 int main()
 {

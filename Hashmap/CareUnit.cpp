@@ -150,10 +150,6 @@ void CareUnit::update()
     }
 
 
-
-
-
-// TODO fix lazy deletion
     size_t countOfDeleted = _nameToPatient.size() - _idToName.size();
 //    std::cout << "size of deleted: " << countOfDeleted << std::endl;
     if ((countOfDeleted * 2) >= _idToName.size())

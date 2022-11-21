@@ -80,8 +80,8 @@ public:
     /**
      * O(1)
      * @brief adds a new measurement to the history of the patient from the parameters
-     * @param pressure in //TODO unit
-     * @param heartRate in //TODO unit
+     * @param pressure in mmHG
+     * @param heartRate in BPM
      * */
     void addMeasurement(uint8_t systolicBP, uint8_t diastolicBP, uint8_t heartRate);
 
