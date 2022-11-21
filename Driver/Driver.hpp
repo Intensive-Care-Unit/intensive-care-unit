@@ -148,11 +148,11 @@ void printPatients(int unitIndex) {
     std::cout << "There are " << patients.size() << " patients in this unit." << std::endl;
     int counter = 0;
 
-    VariadicTable<uint64_t, std::string, int, int, std::string> vt({"ID", "Name", "Age", "Weight", "Gender"}, 15);
+    VariadicTable<uint64_t, std::string, int, int, int, std::string> vt({"ID", "Name", "Age", "Weight (kg)", "Height (cm)", "Gender"}, 15);
 
     for (const auto& p: patients) {
         if (!p.second.isDeleted())
-            vt.addRow(p.second.getId(), p.second.getName(), p.second.getAge(), p.second.getWeight(), (char)p.second.getGender() == 'f' ? "Female" : "Male");
+            vt.addRow(p.second.getId(), p.second.getName(), p.second.getAge(), p.second.getWeight(), p.second.getHeight(), (char)p.second.getGender() == 'f' ? "Female" : "Male");
     }
 
     vt.print(std::cout);
@@ -164,8 +164,8 @@ void managePatient(uint64_t id, int unitIndex) {
     Hospital* h = State::getHospital();
     Patient& p = h->getUnits()[unitIndex].getPatient(id);
     // Print patients info in table
-    VariadicTable<uint64_t, std::string, int, int, std::string> vt({"ID", "Name", "Age", "Weight (kg)", "Gender"}, 15);
-    vt.addRow(p.getId(), p.getName(), p.getAge(), p.getWeight(),(char)p.getGender() == 'f' ? "Female" : "Male");
+    VariadicTable<uint64_t, std::string, int, int, int, std::string> vt({"ID", "Name", "Age", "Weight (kg)", "Height (cm)", "Gender"}, 15);
+    vt.addRow(p.getId(), p.getName(), p.getAge(), p.getWeight(), p.getHeight(), (char)p.getGender() == 'f' ? "Female" : "Male");
     vt.print(std::cout);
 
     int option = -1;
