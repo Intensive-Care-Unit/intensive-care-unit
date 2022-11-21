@@ -26,3 +26,10 @@ std::string center(const std::string s, const int w) {
         ss << " ";
     return ss.str();
 }
+
+// Checks if a given string is digit or not
+bool isNumber(const std::string& s) {
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}

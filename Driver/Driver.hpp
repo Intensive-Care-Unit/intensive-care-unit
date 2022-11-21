@@ -19,7 +19,7 @@ void optionsOnPatientSelection(int unitIndex);
 void managePatient(uint64_t id, int unitIndex);
 // Runs on a separate thread, checks for a new measurement from the UPDATE function in care unit and patient
 void checkNewMeasurement(Patient* p);
-char quitThread ='\0'; // Global variable used to check if the user wants the quit the separate thread of excution
+char quitThread ='\0'; // Global variable used to check if the user wants the quit the separate thread that prints the new measurements
 
 // These two functions return a boolean on whether a given patient exists or not
 bool patientExists(uint64_t id, int unitIndex);
@@ -54,7 +54,8 @@ std::string selectRole() {
     std::string role = "-1";
     do {
         std::cout << "Select a role > ";
-        std::cin >> role; 
+        std::cin >> std::ws;
+        std::getline(std::cin, role);
     } while (role != "1" && role != "0");
     return role;
 }
@@ -64,14 +65,16 @@ int getUnitIndexFromUser() {
         Hospital* h = State::getHospital();
         std::vector<CareUnit> units = h->getUnits();
         // Get the input from the user
-        int unitNum = -1;
+        std::string unitNum = "-1";
+        int intUnitNum = -1;
         do {
             std::cout << "Select from [0-" << units.size()-1 << "] for unit: ";
-            std::cin >> unitNum;
-
-        } while (unitNum > units.size()-1 || unitNum < 0);
-
-        return (unitNum);
+            std::cin >> std::ws;
+            std::getline(std::cin, unitNum);
+            if (!isNumber(unitNum)) continue;
+            else intUnitNum = std::stoi( unitNum );
+        } while (intUnitNum > units.size()-1 || intUnitNum < 0);
+        return intUnitNum;
 }
 
 // Function to print all the units in the hospital
@@ -172,14 +175,18 @@ void managePatient(uint64_t id, int unitIndex) {
     vt.addRow(p.getId(), p.getName(), p.getAge(), p.getWeight(), p.getHeight(), (char)p.getGender() == 'f' ? "Female" : "Male");
     vt.print(std::cout);
 
-    int option = -1;
+    std::string option = "-1";
+    int optionInt = -1;
     do {
         std::cout << "Please select an option:\n1- Release patient    2- Move to critical unit     3- See measures\n> ";
-        std::cin >> option;
-    } while (option > 3 || option < 1);
+        std::cin >> std::ws;
+        std::getline(std::cin, option);
+        if (!isNumber(option)) continue;
+        else optionInt = stoi(option);
+    } while (optionInt > 3 || optionInt < 1);
 
 
-    if (option == 3) {
+    if (optionInt == 3) {
         auto his = p.getHistory();
         // Printing the history in a table
         std::cout << center("Pulses (bpm)",20)       << " | "
@@ -205,35 +212,38 @@ void managePatient(uint64_t id, int unitIndex) {
         std::cin >> quitThread;
         checkThread.join();
 
-    } else if (option == 2) {
+    } else if (optionInt == 2) {
         p.moveToCritical();
         std::cout << "Patient [" << p.getId() << " | " << p.getName() << "] moved to critical unit.\n";
-    } else if (option == 1) {
+    } else if (optionInt == 1) {
         h->getUnits()[unitIndex].removePatient(p.getId());
         std::cout << "Patient [" << p.getId() << " | " << p.getName() << "] removed.\n";
     }
 
 
-    if (option == 3) {
+    if (optionInt == 3) {
         std::cout << "\n\n1- Quit  2- Prev\n>";
 
-        int decision = -1;
+        std::string decision = "-1";
         do {
-            std::cin >> decision;
-        } while (decision != 1 && decision != 2);
+            std::cin >> std::ws;
+            std::getline(std::cin, decision);
+        } while (decision != "1" && decision != "2");
 
-        if (decision == 2){
+        if (decision == "2"){
             managePatient(id, unitIndex);
         }
     } else {
-        std::cout << "\n\n1- Quit  2- Patients Menu \n>";
+        std::cout << "\n\n1- Quit  2- Patients Menu";
 
-        int decision = -1;
+        std::string decision = "-1";
         do {
-            std::cin >> decision;
-        } while (decision != 1 && decision != 2);
+            std::cout << "\n> ";
+            std::cin >> std::ws;
+            std::getline(std::cin, decision);
+        } while (decision != "1" && decision != "2");
 
-        if (decision == 2){
+        if (decision == "2"){
             printPatients(unitIndex);
             optionsOnPatientSelection(unitIndex);
         }
@@ -248,20 +258,23 @@ void optionsOnPatientSelection(int unitIndex) {
     std::string option = "";
     do {    
         std::cout << "> ";
-        std::cin >> option;
+        std::cin >> std::ws;
+        std::getline(std::cin, option);
     } while (option != "a" && option != "A" && option != "b" && option != "B");
 
 
     if (option == "a" || option == "A") {
         std::cout << "Please input the id > ";
-        uint64_t curId;
-        std::cin >> curId;
-        
-        while (!patientExists(curId, unitIndex)) {
+        std::string curId;
+        std::cin >> std::ws;
+        std::getline(std::cin, curId);
+
+        while (!isNumber(curId) || !patientExists(std::stoi(curId), unitIndex)) {
             std::cout << "Please input a valid id > ";
-            std::cin >> curId;
+            std::cin >> std::ws;
+            std::getline(std::cin, curId);
         }
-        managePatient(curId, unitIndex);
+        managePatient(std::stoi(curId), unitIndex);
 
     } else if (option == "b" || option == "B") {
         std::cout << "Please input the name \n> ";
