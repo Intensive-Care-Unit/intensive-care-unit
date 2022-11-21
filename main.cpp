@@ -1,3 +1,4 @@
+/** Mohammed Iyad Benkhaled **/
 #include <iostream>
 #include <thread>
 #include "Hospital.hpp"
