@@ -1,3 +1,4 @@
+/** Mohammed Iyad Benkhaled **/
 #ifndef DS_EXCEPTIONS_H
 #define DS_EXCEPTIONS_H
 
