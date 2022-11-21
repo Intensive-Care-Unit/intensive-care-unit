@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 #include "State.hpp"
+#include "Hospital.hpp"
 
 using namespace std;
 
@@ -16,6 +17,9 @@ int main()
 
     thread f([&]()
              { h->update(); });
+
+
+
 
 
 

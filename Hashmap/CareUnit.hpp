@@ -1,3 +1,4 @@
+/** Mohammed Iyad Benkhaled **/
 #pragma once
 
 #include "Patient.hpp"
@@ -6,11 +7,13 @@
 #include <chrono>
 #include <random>
 #include <cassert>
-#include "AvlTree.h"
+#include <unordered_map>
+#include <map>
+
 
 // Care Unit class
 //
-// CONSTRUCTION: a name for the care unit (Same as name of the service in case of Intensive Care Unit)
+// CONSTRUCTION: a name for the care unit (Same as name of the service in case of Critical Care Unit)
 //
 // ******************PUBLIC OPERATIONS*********************
 // string getServiceName( )                            --> Get the name of the unit
@@ -21,7 +24,7 @@
 // bool hasPatients( )                                 --> Check that unit has patients 
 // Patient getPatient( name )                          --> Search Patient by name
 // Patient getPatient( id )                            --> Search Patient by ID
-// vector<Patient> getPatients( )                      --> Get all patients of the unit
+// unordered_map<string, Patient> getPatients( )  --> Get all patients of the unit
 // size_t getPatientsCount( )                          --> Get number of patients in the unit
 // bool hasPatient( name )                             --> Check if a patient exist, using the name
 // bool hasPatient( id )                               --> Check if a patient exist, using the ID
@@ -47,7 +50,7 @@ public:
     void update();
 
     /**
-     * @brief procedurally generates a patient's info and calls addRandomPatient(name, gender, age, height, weight) to add him to the tree
+     * @brief procedurally generates a patient's info and calls addRandomPatient(name, gender, age, height, weight) to add him to the hashmaps
      * */
     void addRandomPatient();
 
@@ -61,7 +64,7 @@ public:
     
     /**
      * O(1) on average
-     * @brief adds a new patient to the patients trees
+     * @brief adds a new patient to the patients hashmaps
      * @attention add patient's id to _patientIds array taking into consideration _deletedPatientsIndexes
      * */
     void addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight);
@@ -69,15 +72,24 @@ public:
 
     /**
      * O(1) on average
-     * @brief removes a patient from the patients tree by their id
+     * @brief removes a patient from the patients hashmaps by their id
      * */
     void removePatient(uint64_t id);
 
+    
     /**
      * O(1)
      * @returns a boolean indicating wither there are patients in the unit
      * */
     bool hasPatients() const;
+    
+    
+    /**
+     * O(1)
+     * @return bool indicating if the patient exist
+     */
+    bool hasPatient(const std::string& name);
+    bool hasPatient(uint64_t id);
 
 
     /**
@@ -96,20 +108,55 @@ public:
 
     /**
      * O(n)
-     * @returns a reference to the patients in a vector
+     * @returns a reference to the patients in a hashmap
+     * @attention NOT SURE ABOUT THIS, might be used when printing the list of patients
      * */
-    std::vector<Patient> getPatients() const;
+    std::unordered_map<std::string, Patient> &getPatients();
+
+    /**
+     * O(1)
+     * @returns number of patients in the unit
+     * */
+    size_t getPatientsCount() const;
+    
 
 private:
     // name of the service the care unit belongs to, must be initialized
     const std::string _serviceName;
 
 
-    // an AVL tree that maps each patient's id to their name
-    AvlTree<uint64_t, std::string> _idToName;
+    // a hashmap that maps each patient's id to their name
+    std::unordered_map<uint64_t, std::string> _idToName;
 
 
-    // an AVL tree that maps each patient's name to their Patient object
-    AvlTree<std::string, Patient> _nameToPatient;
-    
+    // a hashmap that maps each patient's name to their Patient object
+    std::unordered_map<std::string, Patient> _nameToPatient;
+
+    // Counter of the number of deleted patients
+    int deletedPatientsCount = 0;
+
+
+
+    // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1456.html
+
+
+// TODO remove lazy deletion stuff from update() methods
+//    // a vector array of the patient's IDS, we'll use it to traverse the patients in order to update them or print them in O(n) time
+//    // if a patient is deleted, their ID is turned into -1 (for lazy deletion)
+//    // we'll keep the indexes of the deleted patients in a linked list (below) to insert new patients into the deleted positions
+//    std::vector<uint64_t> _patientsIds;
+//
+//
+//    // doubly linked list of the deleted patients indexes in _patientsIds vector array
+//    std::list<size_t> _deletedPatientsIndexes;
+
+
+
+
+
+/****************** Utilities ***********************/
+
+
+
+
 };

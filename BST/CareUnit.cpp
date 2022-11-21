@@ -24,6 +24,7 @@ void CareUnit::addPatient(const Patient &patient)
 {
     _nameToPatient.insert(patient.getName(), patient);
     _idToName.insert(patient.getId(), patient.getName());
+
 }
 
 

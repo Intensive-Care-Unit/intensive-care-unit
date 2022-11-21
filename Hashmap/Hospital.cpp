@@ -1,4 +1,4 @@
-
+/** Mohammed Iyad Benkhaled **/
 #include "Hospital.hpp"
 #include <stdexcept>
 #include <algorithm>
@@ -6,6 +6,11 @@
 #include <chrono>
 #include <iostream>
 
+/***
+ *
+ * Implementation file for Hospital Class
+ *
+ * * */
 
 Hospital::Hospital()
 {
@@ -19,17 +24,6 @@ Hospital::Hospital()
 
 bool Hospital::addUnit(const std::string &name)
 {
-//    auto it = _serviceUnits.find(name);
-//
-//    // if it already exists, we return
-//    if (it != _serviceUnits.end())
-//    {
-//        return false;
-//    }
-//
-//    _serviceUnits.insert(std::make_pair(name, CareUnit(name)));
-//
-//    return true;
 
     for (auto &unit: _serviceUnits)
     {
@@ -48,16 +42,6 @@ bool Hospital::addUnit(const std::string &name)
 
 CareUnit &Hospital::getServiceUnit(const std::string &name)
 {
-//    auto it = _serviceUnits.find(name);
-//
-//    if (it != _serviceUnits.end())
-//    {
-//        return (*it).second;
-//    } else
-//    {
-//        throw std::runtime_error("service not found");
-//    }
-
 
     for (auto &_serviceUnit: _serviceUnits)
     {
@@ -82,9 +66,6 @@ void Hospital::update()
             {
                 service.update();
             }
-
-
-
             std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }

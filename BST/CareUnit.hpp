@@ -6,7 +6,7 @@
 #include <chrono>
 #include <random>
 #include <cassert>
-#include "AvlTree.h"
+#include "BinarySearchTree.h"
 
 // Care Unit class
 //
@@ -105,11 +105,11 @@ private:
     const std::string _serviceName;
 
 
-    // an AVL tree that maps each patient's id to their name
-    AvlTree<uint64_t, std::string> _idToName;
+    // a binary search tree that maps each patient's id to their name
+    BinarySearchTree<uint64_t, std::string> _idToName;
 
 
-    // an AVL tree that maps each patient's name to their Patient object
-    AvlTree<std::string, Patient> _nameToPatient;
-    
+    // a binary search tree that maps each patient's name to their Patient object
+    BinarySearchTree<std::string, Patient> _nameToPatient;
+
 };

@@ -1,3 +1,4 @@
+/** Mohammed Iyad Benkhaled **/
 #pragma once
 
 #include "Measurement.hpp"
@@ -6,6 +7,20 @@
 #include <unordered_map>
 #include <list>
 
+
+// Patient class
+//
+// CONSTRUCTION: patient's name, gender, age, height, weight, and the name of the service they are currently part of
+//
+// ******************PUBLIC OPERATIONS*********************
+// GETTERS                                                      --> Get specific information about the Patient
+// bool isDeleted( )                                            --> Check if patient deleted
+// void remove( )                                               --> Remove patient
+// void generateMeasurement( )                                  --> Generate random measurement
+// void addMeasurement(systolicBP, diastolicBP, heartRate)( )   --> Add specific measurement 
+// void releae( )                                               --> Release patient
+// void moveToCritical( )                                       --> Move patient to Critical Unit
+// void update( )                                               --> Randomly update patient's data
 
 class Patient
 {
@@ -19,7 +34,8 @@ public:
 
 //    Patient() = default;
 
-    // custom copy assignment since it will be implicitly deleted bcs of having const members
+// custom copy assignment since it will be implicitly deleted because of having const members
+//
 //    Patient &operator=(const Patient &p) = default;
 //
 //    Patient &operator=(Patient &&p) = default;
@@ -29,37 +45,41 @@ public:
 //    Patient(Patient &&p) = default;
 
 
-/*********************************
-*          Getters
-********************************/
-
+    /*********************************
+    *          Getters
+    *           O(1)
+    ********************************/
     uint64_t getId() const;
-
     std::string getName() const;
-
     uint8_t getGender() const;
-
     uint8_t getAge() const;
-
     uint8_t getHeight() const;
-
     uint16_t getWeight() const;
-
     std::list<Measurement *> &getHistory();
+    const std::string &getServiceName() const;
 
+    /**
+     * O(1)
+     * @brief checks if the patient is deleted, i.e. released or dead
+     * */
     bool isDeleted() const;
 
+    /**
+     * O(1) on average
+     * @brief removes the patient
+     * */
     void remove();
 
 
     /**
-     * Procedurally generates measurements and adds them to the patient's _history
+     * @brief procedurally generates measurements and adds them to the patient's history
      * */
     void generateMeasurement();
 
 
     /**
-     * adds a new measurement to the _history of the patient from the parameters
+     * O(1)
+     * @brief adds a new measurement to the history of the patient from the parameters
      * @param pressure in //TODO unit
      * @param heartRate in //TODO unit
      * */
@@ -67,29 +87,25 @@ public:
 
 
     /**
-     * Removes the patient from its current careUnit object
+     * O(1) on average
+     * @brief removes the patient from its current careUnit object
      * @attention might need access to the CareUnit object it belongs to in order to complete this operation
      * */
     void release();
 
-    const std::string &getServiceName() const;
-
 
     /**
-     * Moves the current patient to the critical CareUnit object's _patients array
+     * O(1) on average
+     * @brief moves the current patient to the critical CareUnit object's _patients array
      * @attention might need access to the CareUnit object it belongs to as well as the critical CareUnit object in order to complete this operation
-     */
+     * */
     void moveToCritical();
 
 
-    // TODO remove later, just for testing if code works
-    void print() const;
-
-
     /**
-     * @brief Generates a measurement and adds it to the _history, might check for the patient's last measurement to decide whether they should be moved to the critical unit,
+     * @brief Generates a measurement and adds it to the history, might check for the patient's last measurement to decide whether they should be moved to the critical unit,
      * @attention takes into consideration the unit the patient belongs to (if he is already in critical unit, no need to move him to it)
-     */
+     * */
     void update();
 
 private:
@@ -121,8 +137,11 @@ private:
     uint16_t _weight; // in kg;  uint16, bcs weight can be more than 255
 
 
-    // _history of measurements
-    std::list<Measurement *> _history;
+    // history of measurements
+    std::list<Measurement *> history;
+
+    // Boolean for checking is the patient deleted
+    bool _isDeleted = false;
 
 
 };

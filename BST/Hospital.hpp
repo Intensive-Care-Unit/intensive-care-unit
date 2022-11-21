@@ -45,7 +45,7 @@ public:
 
 
     /**
-     * a function that runs in a different thread, it runs a loop to go through all CareUnit objects in _services and for each one, it procedurally adds/removes _patients, as well as adds new measurements to their _history, runs in a constant interval of time (//TODO define the interval that the function runs on)
+     * a function that runs in a different thread, it runs a loop to go through all CareUnit objects in _services and for each one, it procedurally adds/removes _patients, as well as adds new measurements to their history, runs in a constant interval of time (//TODO define the interval that the function runs on)
      * */
     void update();
 
