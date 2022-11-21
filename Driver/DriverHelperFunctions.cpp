@@ -2,9 +2,6 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-// Functions found in https://stackoverflow.com/questions/14765155/how-can-i-easily-format-my-data-table-in-c
-// They were lightly modified for our purpose
-
 
 // Prints a double value with a specified precision
 std::string printDouble(const double x, const int decDigits, const int width) {
@@ -17,8 +14,7 @@ std::string printDouble(const double x, const int decDigits, const int width) {
     return ss.str();
 }
 
-/*! Center-aligns string within a field of width w. Pads with blank spaces
-    to enforce alignment. */
+// Centers the text before printing
 std::string center(const std::string s, const int w) {
     std::stringstream ss;
     std::stringstream spaces;

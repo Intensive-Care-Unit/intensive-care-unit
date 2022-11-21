@@ -132,10 +132,14 @@ void checkNewMeasurement(Patient* p) {
     while (quitThread == '\0') {
         auto m = *p->getHistory().back();
         auto humanTime = epochTimeToHumanTime(m.getTime());
-        std::cout << printDouble((double)m.getHeartRate(),2,20)       << " | "
+        std::cout << printDouble((double)m.getHeartRate(),2,20) << " | "
             << printDouble((double)m.getBloodPressure().first, 2,20)     << " | "
             << printDouble((double)m.getBloodPressure().second,2,20) << " | " 
-            << humanTime->tm_hour << ":" << humanTime->tm_min << ":" << humanTime->tm_sec << " GMT" <<"\n";
+
+            << std::right << std::setw(2) << std::setfill('0') << humanTime->tm_hour << ":" 
+            << std::right << std::setw(2) << std::setfill('0') << humanTime->tm_min << ":" 
+            << std::right << std::setw(2) << std::setfill('0') << humanTime->tm_sec << " GMT" 
+            << "\n";
 
         std::this_thread::sleep_for(1s);
     }
@@ -178,7 +182,6 @@ void managePatient(uint64_t id, int unitIndex) {
     if (option == 3) {
         auto his = p.getHistory();
         // Printing the history in a table
-        // VariadicTable<int, int, int> vt({"Heart Pulses", "Systolic ", "Diastolic"}, 15);
         std::cout << center("Pulses (bpm)",20)       << " | "
         << center("Systolic (mmHg)",20)     << " | "
         << center("Diastolic (mmHg)",20)
@@ -186,19 +189,19 @@ void managePatient(uint64_t id, int unitIndex) {
         for(std::list<Measurement*>::iterator hisIter = his.begin(); hisIter != his.end(); hisIter++) {
             Measurement m = **hisIter;
             auto humanTime = epochTimeToHumanTime(m.getTime());
-            // vt.addRow( (int)m.getHeartRate(), (int)m.getBloodPressure().first , (int)m.getBloodPressure().second);
 
              std::cout << printDouble((int)m.getHeartRate(),2,20)       << " | "
                       << printDouble((int)m.getBloodPressure().first, 2,20)     << " | "
                       << printDouble((int)m.getBloodPressure().first, 2,20) << " | " 
-                      << humanTime->tm_hour << ":" << humanTime->tm_min << ":" << humanTime->tm_sec << " GMT" << "\n";
+
+                    << std::right << std::setw(2) << std::setfill('0') << humanTime->tm_hour << ":" 
+                    << std::right << std::setw(2) << std::setfill('0') << humanTime->tm_min << ":" 
+                    << std::right << std::setw(2) << std::setfill('0') << humanTime->tm_sec << " GMT" 
+                    << "\n";        
         }
-        // vt.print(std::cout);
 
         // Running the function that gets a new measurment on a new thread
         std::thread checkThread(checkNewMeasurement, &p);
-        // std::cin >> std::ws;
-        // std::getline(std::cin, quitThread);
         std::cin >> quitThread;
         checkThread.join();
 
