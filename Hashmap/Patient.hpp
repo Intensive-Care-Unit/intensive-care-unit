@@ -19,7 +19,7 @@
 // void markAsDeleted( )                                               --> Remove patient
 // void generateMeasurement( )                                  --> Generate random measurement
 // void addMeasurement(systolicBP, diastolicBP, heartRate)( )   --> Add specific measurement 
-// void releae( )                                               --> Release patient
+// void release( )                                               --> Release patient
 // void moveToCritical( )                                       --> Move patient to Critical Unit
 // void update( )                                               --> Randomly update patient's _data
 
