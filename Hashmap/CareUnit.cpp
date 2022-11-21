@@ -1,3 +1,5 @@
+/** Mohammed Iyad Benkhaled **/
+
 #include <algorithm>
 #include <iostream>
 #include "Patient.hpp"
@@ -5,20 +7,34 @@
 #include "State.hpp"
 #include "Utils.hpp"
 
+/***
+ *
+ * Implementation file for CareUnit Class
+ *
+ * * */
 
 CareUnit::CareUnit(const std::string &name)
         : _serviceName(name)
 {}
 
+
 void CareUnit::addPatient(const std::string &name, uint8_t gender, uint8_t age, uint8_t height, uint16_t weight)
 {
-    addPatient({_serviceName, name, gender, age, height, weight});
+    addPatient({_serviceName, name, gender, age, height,
+                weight}); // Creates Patient object, and call addPatient( Patient )
 }
 
 void CareUnit::addPatient(const Patient &patient)
 {
+    // Insert required _data to _idToName HashTable
+    // Emplace is used because it is faster than insert
+    // https://yasenh.github.io/post/cpp-diary-1-emplace_back/
     _idToName.emplace(patient.getId(), patient.getName());
+
+    // Insert required _data to _nameToPatient HashTable
+    // Emplace is used because it is faster than insert
     _nameToPatient.emplace(patient.getName(), patient);
+
 }
 
 void CareUnit::removePatient(uint64_t id)
@@ -33,27 +49,10 @@ void CareUnit::removePatient(uint64_t id)
 
         if (it2 != _nameToPatient.end())
         {
-//            _nameToPatient.at(name).markAsDeleted();
-            (*it2).second.markAsDeleted();
+            (*it2).second.markAsDeleted(); // Call markAsDeleted( ) function on the specified Patient object
             _idToName.erase(it);
         }
-
     }
-
-//    auto it = _idToName.find(id);
-//    if (it != _idToName.end())
-//    {
-//        std::string name = _idToName.at(id);
-//        auto it2 = _nameToPatient.find(name);
-//
-//        if (it2 != _nameToPatient.end())
-//        {
-//            _nameToPatient.at(name).markAsDeleted();
-////            _idToName.erase(id);
-//        }
-////        std::cout << _idToName.size() << std::endl;
-//        _idToName.erase(id);
-//    }
 }
 
 const std::string &CareUnit::getServiceName() const
@@ -63,15 +62,6 @@ const std::string &CareUnit::getServiceName() const
 
 std::unordered_map<std::string, Patient> &CareUnit::getPatients()
 {
-//    std::vector<Patient *> unitPatients;
-//    for (const auto &patient: _nameToPatient)
-//    {
-//        if (!patient.second.isDeleted())
-//            unitPatients.push_back(patient.second);
-//    }
-//
-//    return unitPatients;
-
     return _nameToPatient;
 }
 
@@ -85,7 +75,7 @@ void CareUnit::addRandomPatient()
     PatientData patientInfo = State::getData()->generatePatientData();
 
     // generating age:
-    uint8_t age = Utils::rng(100);
+    uint8_t age = Utils::rng(200);
 
     uint8_t height, weight;
 
@@ -136,7 +126,8 @@ Patient &CareUnit::getPatient(uint64_t id)
 
 void CareUnit::update()
 {
-    // updating all the patient's objects
+
+    //    // updating all the patient's objects
     for (auto &patientPair: _nameToPatient)
     {
         if (!(patientPair.second.isDeleted()))
@@ -144,6 +135,7 @@ void CareUnit::update()
             patientPair.second.update();
         }
     }
+
 
     // probability of 3/5 to add 3 patients
     int randomNum = Utils::rng(100);
@@ -158,6 +150,10 @@ void CareUnit::update()
     }
 
 
+
+
+
+// TODO fix lazy deletion
     size_t countOfDeleted = _nameToPatient.size() - _idToName.size();
 //    std::cout << "size of deleted: " << countOfDeleted << std::endl;
     if ((countOfDeleted * 2) >= _idToName.size())
@@ -189,4 +185,28 @@ bool CareUnit::hasPatients() const
 size_t CareUnit::getPatientsCount() const
 {
     return _idToName.size();
+}
+
+bool CareUnit::hasPatient(const std::string &name)
+{
+    try
+    {
+        _nameToPatient.at(name);
+        return true;
+    } catch (const std::out_of_range &e)
+    {
+        return false;
+    }
+}
+
+bool CareUnit::hasPatient(uint64_t id)
+{
+    try
+    {
+        _idToName.at(id);
+        return true;
+    } catch (const std::out_of_range &e)
+    {
+        return false;
+    }
 }

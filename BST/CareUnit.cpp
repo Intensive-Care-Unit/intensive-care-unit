@@ -1,3 +1,5 @@
+/** Mohammed Iyad Benkhaled **/
+
 #include <algorithm>
 #include<vector>
 #include "Patient.hpp"
@@ -5,6 +7,11 @@
 #include "State.hpp"
 #include "Utils.hpp"
 
+/***
+ *
+ * Implementation file for CareUnit Class
+ *
+ * * */
 
 CareUnit::CareUnit(const std::string &name)
         : _serviceName(name)
@@ -17,11 +24,9 @@ void CareUnit::addPatient(const std::string &name, uint8_t gender, uint8_t age, 
 
 void CareUnit::addPatient(const Patient &patient)
 {
-    if (!_idToName.contains(patient.getId()))
-    {
-        _nameToPatient.insert(patient.getName(), patient);
-        _idToName.insert(patient.getId(), patient.getName());
-    }
+    _nameToPatient.insert(patient.getName(), patient);
+    _idToName.insert(patient.getId(), patient.getName());
+
 }
 
 

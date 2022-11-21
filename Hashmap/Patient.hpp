@@ -1,4 +1,5 @@
 /** Mohammed Iyad Benkhaled **/
+
 #pragma once
 
 #include "Measurement.hpp"
@@ -15,9 +16,10 @@
 // ******************PUBLIC OPERATIONS*********************
 // GETTERS                                                      --> Get specific information about the Patient
 // bool isDeleted( )                                            --> Check if patient deleted
+// void markAsDeleted( )                                               --> Remove patient
 // void generateMeasurement( )                                  --> Generate random measurement
 // void addMeasurement(systolicBP, diastolicBP, heartRate)( )   --> Add specific measurement 
-// void release( )                                               --> Release patient
+// void releae( )                                               --> Release patient
 // void moveToCritical( )                                       --> Move patient to Critical Unit
 // void update( )                                               --> Randomly update patient's _data
 
@@ -69,6 +71,12 @@ public:
      * @brief checks if the patient is deleted, i.e. released or dead
      * */
     bool isDeleted() const;
+
+    /**
+     * O(1) on average
+     * @brief marks patient as deleted
+     * */
+    void markAsDeleted();
 
 
     /**

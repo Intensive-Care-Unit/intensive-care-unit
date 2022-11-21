@@ -1,3 +1,4 @@
+/** Mohammed Iyad Benkhaled **/
 
 #include <sstream>
 #include "Data.hpp"
@@ -40,14 +41,14 @@ PatientData DataSets::generatePatientData()
 DataSets::DataSets()
 {
     // read name csv file
-    std::ifstream file("data/names.csv", std::ios::in);
+    std::ifstream file("_data/names.csv", std::ios::in);
 
     std::string line;
 
     // dummy getline to get rid of the head row of the csv
     std::getline(file, line);
 
-    // reading the data rows from the csv
+    // reading the _data rows from the csv
     while (std::getline(file, line))
     {
         // making a string stream from the current line

@@ -3,7 +3,7 @@ project(AvlTree)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include_directories(. ../common)
+include_directories(.)
 
 add_executable(AvlTreeTest
         Test.cpp
@@ -11,11 +11,11 @@ add_executable(AvlTreeTest
         ../common/Data.cpp
         ../common/Hospital.cpp
         ../common/Measurement.cpp
-        ../common/Patient.cpp
+        Patient.cpp
         ../common/State.cpp)
 
 
-# to copy the data/ folder to the build folder on each build
+# to copy the _data/ folder to the build folder on each build
 add_custom_command(
         TARGET AvlTreeTest PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -23,9 +23,6 @@ add_custom_command(
         ${CMAKE_CURRENT_BINARY_DIR}/data)
 
 target_link_libraries(AvlTreeTest)
-
-
-
 
 
 #cmake_minimum_required(VERSION 3.24)
@@ -53,12 +50,12 @@ target_link_libraries(AvlTreeTest)
 #        Utils.hpp)
 #
 #
-## to copy the data/ folder to the build folder on each build
+## to copy the _data/ folder to the build folder on each build
 #add_custom_command(
 #        TARGET AvlTreeTest PRE_BUILD
 #        COMMAND ${CMAKE_COMMAND} -E copy_directory
-#        ${CMAKE_SOURCE_DIR}/data
-#        ${CMAKE_CURRENT_BINARY_DIR}/data)
+#        ${CMAKE_SOURCE_DIR}/_data
+#        ${CMAKE_CURRENT_BINARY_DIR}/_data)
 #
 #
 #target_link_libraries(AvlTreeTest)

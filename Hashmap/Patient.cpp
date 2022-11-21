@@ -1,3 +1,5 @@
+/** Mohammed Iyad Benkhaled **/
+
 #include "Patient.hpp"
 #include <chrono>
 #include <iostream>
@@ -8,6 +10,12 @@ using std::cout;
 using std::endl;
 using namespace std::chrono;
 
+/***
+ *
+ * Implementation file for Patient Class
+ *
+ * * */
+
 Patient::Patient(const std::string &serviceName, const std::string &name, uint8_t gender, uint8_t age, uint8_t height,
                  uint16_t weight)
         :
@@ -17,15 +25,10 @@ Patient::Patient(const std::string &serviceName, const std::string &name, uint8_
         , _age(age)
         , _height(height)
         , _weight(weight)
-        , _id(Utils::rng())
+        , _id(duration_cast<seconds>(system_clock::now().time_since_epoch()).count())
 {
-
+    // Empty Constructor
 }
-
-//Patient &Patient::operator=(const Patient &p)
-//{
-//    return *this;
-//}
 
 
 uint64_t Patient::getId() const
@@ -66,7 +69,7 @@ std::list<Measurement *> &Patient::getHistory()
 void Patient::addMeasurement(uint8_t systolicBP, uint8_t diastolicBP, uint8_t heartRate)
 {
     // emplace_back() accepts arguments that initialize the constructor of the template type of the vector
-    // we used emplace_front() bcs it's faster than push_front()
+    // we used emplace_front() because it's faster than push_front()
     // https://yasenh.github.io/post/cpp-diary-1-emplace_back/
 
     this->_history.emplace_back(new Measurement(systolicBP, diastolicBP, heartRate));
@@ -91,7 +94,7 @@ void Patient::moveToCritical()
     // removing the patient from the current unit and adding them to the critical unit
     currentUnit.removePatient(_id);
 //    markAsDeleted();
-    criticalUnit.addPatient({_serviceName, _name, _gender, _age, _height, _weight});
+    criticalUnit.addPatient(_name, _gender, _age, _height, _weight);
 
 }
 
@@ -190,4 +193,14 @@ void Patient::update()
 //        return;
 //    }
 
+}
+
+void Patient::markAsDeleted()
+{
+    this->_isDeleted = true;
+}
+
+bool Patient::isDeleted() const
+{
+    return _isDeleted;
 }

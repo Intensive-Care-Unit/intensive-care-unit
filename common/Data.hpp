@@ -1,6 +1,6 @@
+/** Mohammed Iyad Benkhaled **/
 
 #pragma once
-
 
 #include <utility>
 #include <vector>
@@ -8,6 +8,9 @@
 #include <fstream>
 #include "Hospital.hpp"
 
+//
+// PatientData Struct used for getting patients' _data
+//
 struct PatientData
 {
     PatientData(std::string n, uint8_t g)
@@ -20,17 +23,20 @@ struct PatientData
     uint8_t gender;
 };
 
+//
+// DataSets Struct used for _data generation
+//
 struct DataSets
 {
     explicit DataSets();
 
 
     /**
-    * @returns a randomly generated patient name and gender
-    */
+* @returns a randomly generated patient name and gender
+*/
     PatientData generatePatientData();
 
-    // we'll use these to generate gendered random patient names
+    // we'll use these to generate random patient names
     std::vector<std::string> maleNames;
     std::vector<std::string> femaleNames;
     std::vector<std::string> lastNames;

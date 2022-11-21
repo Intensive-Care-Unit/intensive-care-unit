@@ -5,9 +5,9 @@
 using namespace std;
 
 /*
- * TODO: finish update implementations (procedural generation of data)
- * TODO: make testing data set
- * TODO: make functions to import the data sets
+ * TODO: finish update implementations (procedural generation of _data)
+ * TODO: make testing _data set
+ * TODO: make functions to import the _data sets
  */
 
 int main()

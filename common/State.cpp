@@ -1,29 +1,35 @@
+/** Mohammed Iyad Benkhaled **/
 
 #include <iostream>
 #include "State.hpp"
 #include "Data.hpp"
 
+/***
+ *
+ * Implementation file for State Class
+ *
+ * * */
+
 Hospital *State::getHospital()
 {
-    if (!hospital)
+    if (!_hospital)
     {
-        hospital = new Hospital;
+        _hospital = new Hospital;
     }
 
-    return hospital;
+    return _hospital;
 }
 
-Hospital *State::hospital = nullptr;
+Hospital *State::_hospital = nullptr;
 
-DataSets *State::data = nullptr;
+DataSets *State::_data = nullptr;
 
 DataSets *State::getData()
 {
-    if (!data)
+    if (!_data)
     {
-        data = new DataSets;
+        _data = new DataSets;
     }
 
-    return data;
+    return _data;
 }
-

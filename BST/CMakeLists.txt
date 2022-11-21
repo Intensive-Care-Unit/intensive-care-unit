@@ -3,7 +3,7 @@ project(BinaryTree)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include_directories(. ../common)
+include_directories(.)
 
 add_executable(BinaryTreeTest
         Test.cpp
@@ -15,7 +15,7 @@ add_executable(BinaryTreeTest
         ../common/State.cpp)
 
 
-# to copy the data/ folder to the build folder on each build
+# to copy the _data/ folder to the build folder on each build
 add_custom_command(
         TARGET BinaryTreeTest PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

@@ -1,8 +1,16 @@
+/** Mohammed Iyad Benkhaled **/
+
 #include "Measurement.hpp"
 #include <chrono>
 
 using std::make_pair;
 using namespace std::chrono;
+
+/***
+ *
+ * Implementation file for Measurement Class
+ *
+ * * */
 
 /**
  * duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count():
@@ -32,6 +40,3 @@ uint8_t Measurement::getHeartRate() const
 {
     return _heartRate;
 }
-
-
-

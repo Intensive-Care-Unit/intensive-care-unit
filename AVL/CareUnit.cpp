@@ -1,3 +1,5 @@
+/** Mohammed Iyad Benkhaled **/
+
 #include <algorithm>
 #include<vector>
 #include "Patient.hpp"
@@ -5,6 +7,11 @@
 #include "State.hpp"
 #include "Utils.hpp"
 
+/***
+ *
+ * Implementation file for CareUnit Class
+ *
+ * * */
 
 CareUnit::CareUnit(const std::string &name)
         : _serviceName(name)

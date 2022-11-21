@@ -90,7 +90,7 @@ public:
 
 
     /**
-* Access data with a specific key
+* Access _data with a specific key
 */
     Object &at(const Comparable &x) const
     {
@@ -98,7 +98,7 @@ public:
     }
 
     /**
-    * Access data with a specific key
+    * Access _data with a specific key
     */
     Object &at(Comparable &&x) const
     {
@@ -106,7 +106,7 @@ public:
     }
 
     /**
-    * Convert data into vector
+    * Convert _data into vector
     */
     std::vector<Object> toVector() const
     {
@@ -208,7 +208,7 @@ private:
 
 
     /**
-  * Access data with a specific key
+  * Access _data with a specific key
   */
     Object &at(BinaryNode *t, const Comparable &x) const
     {
@@ -223,7 +223,7 @@ private:
     }
 
     /**
-    * Access data with a specific key
+    * Access _data with a specific key
     */
     Object &at(BinaryNode *t, Comparable &&x) const
     {
@@ -238,7 +238,7 @@ private:
     }
 
     /**
-    * Convert tree data into vector
+    * Convert tree _data into vector
     */
     void toVector(BinaryNode *t, std::vector<Object> &vData) const
     {

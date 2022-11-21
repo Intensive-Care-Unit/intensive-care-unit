@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include "Hospital.hpp"
@@ -8,18 +7,21 @@
 #include <string>
 #include <fstream>
 
-
+// State class
+// 
+// used for state management during the execution of the main driver program
+//
 class State
 {
 public:
     /**
-     * @returns static hospital instance pointer
+     * @returns static _hospital instance pointer (singleton)
      */
     static Hospital *getHospital();
 
 
     /**
- * @returns static Dataset instance pointer
+ * @returns static Dataset instance pointer (singleton)
  */
     static DataSets *getData();
 
@@ -27,24 +29,21 @@ public:
     /**
      * State can't be cloned
      */
-    State(State &) = delete;
+    State(State &other) = delete;
 
 
     /**
-     * State can't be assigned
+     * State can't be assigned (to preserve singleton behaviour)
      */
     void operator=(const State &) = delete;
 
 private:
+    // static _data pointer, gets initialized by getData only once
+    static DataSets *_data;
 
-
-    // private default constructor to prevent creating multiple instances
+    // private default constructor to prevent creating multiple instances (to preserve singleton behaviour)
     explicit State() = default;
 
-    // static hospital pointer, gets initialized by getHospital only once, behaves as a singleton
-    static Hospital *hospital;
-
-
-    // static Dataset pointer, initialized as a acts as a singleton
-    static DataSets *data;
+    // static _hospital pointer, gets initialized by getHospital only once
+    static Hospital *_hospital;
 };
